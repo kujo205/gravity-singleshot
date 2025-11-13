@@ -1,0 +1,20 @@
+{
+  "id": "level-1",
+  "name": "First Steps",
+  "difficulty": 1,
+  "par": 3,
+  "platforms": [
+    { "x": 100, "y": 400, "width": 200, "height": 20, "type": "normal" },
+    { "x": 400, "y": 350, "width": 150, "height": 20, "type": "normal" },
+    { "x": 650, "y": 300, "width": 200, "height": 20, "type": "normal" }
+  ],
+  "start": { "x": 150, "y": 300 },
+  "end": { "x": 750, "y": 200 },
+  "obstacles": [
+    { "x": 500, "y": 300, "radius": 30, "type": "static" }
+  ],
+  "checkpoints": [
+    { "x": 400, "y": 280 }
+  ],
+  "gravity": { "x": 0, "y": 200 }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "level-2",
+  "name": "The Gap",
+  "difficulty": 2,
+  "par": 4,
+  "platforms": [
+    { "x": 100, "y": 450, "width": 180, "height": 20, "type": "normal" },
+    { "x": 500, "y": 400, "width": 120, "height": 20, "type": "bouncy" },
+    { "x": 800, "y": 350, "width": 200, "height": 20, "type": "normal" }
+  ],
+  "start": { "x": 150, "y": 350 },
+  "end": { "x": 900, "y": 250 },
+  "obstacles": [
+    { "x": 350, "y": 380, "radius": 25, "type": "static" },
+    { "x": 650, "y": 330, "radius": 25, "type": "static" }
+  ],
+  "checkpoints": [
+    { "x": 500, "y": 330 }
+  ],
+  "gravity": { "x": 0, "y": 220 }
+}

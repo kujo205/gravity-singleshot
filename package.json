@@ -1,1 +1,31 @@
-{\n  "name": "gravity-singleshot",\n  "version": "1.0.0",\n  "private": true,\n  "scripts": {\n    "start": "node index.js",\n    "lint": "biome lint"\n  },\n  "dependencies": {},\n  "devDependencies": {}\n}
+{
+  "name": "gravity-singleshot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@8.15.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "lint": "biome lint ./src",
+    "lint:fix": "biome lint --write ./src",
+    "format": "biome format --write ./src",
+    "check": "biome check --write ./src",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "pixi.js": "^7.3.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^20.11.5",
+    "@vitest/ui": "^1.2.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vitest": "^1.2.1"
+  }
+}

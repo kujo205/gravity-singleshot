@@ -1,0 +1,25 @@
+{
+  "id": "level-3",
+  "name": "Bouncy Castle",
+  "difficulty": 3,
+  "par": 5,
+  "platforms": [
+    { "x": 100, "y": 500, "width": 150, "height": 20, "type": "normal" },
+    { "x": 300, "y": 450, "width": 100, "height": 20, "type": "bouncy" },
+    { "x": 500, "y": 400, "width": 100, "height": 20, "type": "bouncy" },
+    { "x": 700, "y": 350, "width": 100, "height": 20, "type": "bouncy" },
+    { "x": 900, "y": 300, "width": 150, "height": 20, "type": "normal" }
+  ],
+  "start": { "x": 150, "y": 400 },
+  "end": { "x": 950, "y": 200 },
+  "obstacles": [
+    { "x": 400, "y": 375, "radius": 20, "type": "static" },
+    { "x": 600, "y": 325, "radius": 20, "type": "static" },
+    { "x": 800, "y": 275, "radius": 20, "type": "static" }
+  ],
+  "checkpoints": [
+    { "x": 500, "y": 330 },
+    { "x": 700, "y": 280 }
+  ],
+  "gravity": { "x": 0, "y": 240 }
+}
