@@ -1,6 +1,5 @@
-import type { App } from './App';
-import type { Scene } from './Scene';
 import type { ISceneManager, SceneConstructor } from '@types';
+import type { App } from './App';
 
 export class SceneManager implements ISceneManager {
   private app: App;

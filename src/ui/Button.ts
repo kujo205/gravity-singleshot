@@ -57,7 +57,13 @@ export class Button extends PIXI.Container {
   private drawBackground(color: number): void {
     this.background.clear();
     this.background.beginFill(color);
-    this.background.drawRoundedRect(0, 0, this.options.width, this.options.height, this.options.cornerRadius);
+    this.background.drawRoundedRect(
+      0,
+      0,
+      this.options.width,
+      this.options.height,
+      this.options.cornerRadius
+    );
     this.background.endFill();
   }
 
@@ -93,7 +99,9 @@ export class Button extends PIXI.Container {
     }
     this.isPressed = false;
     this.drawBackground(
-      this.isHovered ? this.lightenColor(this.options.backgroundColor, 0.2) : this.options.backgroundColor
+      this.isHovered
+        ? this.lightenColor(this.options.backgroundColor, 0.2)
+        : this.options.backgroundColor
     );
   };
 

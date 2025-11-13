@@ -1,9 +1,8 @@
 import { Scene } from '@core/Scene';
-import type { ISceneManager } from '@types';
-import * as PIXI from 'pixi.js';
-import { Button } from '@ui/Button';
-import { Panel } from '@ui/Panel';
 import { Progress } from '@game/services/Progress';
+import type { ISceneManager } from '@types';
+import { Button } from '@ui/Button';
+import * as PIXI from 'pixi.js';
 
 export class LevelSelectScene extends Scene {
   private title: PIXI.Text;
@@ -102,7 +101,7 @@ export class LevelSelectScene extends Scene {
     // Nothing to update
   }
 
-  public resize(width: number, height: number): void {
+  public override resize(width: number, height: number): void {
     super.resize(width, height);
     this.title.position.set(width / 2, 80);
   }

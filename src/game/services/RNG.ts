@@ -47,8 +47,9 @@ export class RNG {
     for (let i = array.length - 1; i > 0; i--) {
       const j = this.randomInt(0, i);
       const temp = array[i];
-      if (temp !== undefined && array[j] !== undefined) {
-        array[i] = array[j]!;
+      const swapValue = array[j];
+      if (temp !== undefined && swapValue !== undefined) {
+        array[i] = swapValue;
         array[j] = temp;
       }
     }

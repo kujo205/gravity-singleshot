@@ -1,9 +1,9 @@
 import { App } from '@core/App';
-import { SceneManager } from '@core/SceneManager';
 import { Resize } from '@core/Resize';
+import { SceneManager } from '@core/SceneManager';
 import { BootScene } from '@scenes/BootScene';
-import { MenuScene } from '@scenes/MenuScene';
 import { LevelSelectScene } from '@scenes/LevelSelectScene';
+import { MenuScene } from '@scenes/MenuScene';
 import { PlayScene } from '@scenes/PlayScene';
 import { ResultsScene } from '@scenes/ResultsScene';
 import { ShopScene } from '@scenes/ShopScene';
@@ -14,7 +14,6 @@ import { ShopScene } from '@scenes/ShopScene';
 class Game {
   private app: App;
   private sceneManager: SceneManager;
-  private resize: Resize;
 
   constructor() {
     // Initialize the app
@@ -32,7 +31,7 @@ class Game {
     this.sceneManager.register('shop', ShopScene);
 
     // Setup resize handling
-    this.resize = new Resize(this.app);
+    new Resize(this.app);
 
     // Start with boot scene
     this.sceneManager.goto('boot');

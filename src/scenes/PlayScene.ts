@@ -1,12 +1,12 @@
+import { Input } from '@core/Input';
 import { Scene } from '@core/Scene';
+import { LevelFactory } from '@game/levels';
+import { World } from '@game/world/World';
 import type { ISceneManager } from '@types';
 import type { Level } from '@types';
-import * as PIXI from 'pixi.js';
 import { Button } from '@ui/Button';
 import { HUD } from '@ui/HUD';
-import { World } from '@game/world/World';
-import { LevelFactory } from '@game/levels';
-import { Input } from '@core/Input';
+import * as PIXI from 'pixi.js';
 
 export class PlayScene extends Scene {
   private world: World | null = null;
@@ -165,14 +165,14 @@ export class PlayScene extends Scene {
     }
   }
 
-  public resize(width: number, height: number): void {
+  public override resize(width: number, height: number): void {
     super.resize(width, height);
     this.hud.resize(width);
     this.pauseButton.position.set(width - 140, 10);
     this.resetButton.position.set(width - 270, 10);
   }
 
-  public destroy(options?: Parameters<PIXI.Container['destroy']>[0]): void {
+  public override destroy(options?: Parameters<PIXI.Container['destroy']>[0]): void {
     this.input.destroy();
     this.sceneManager.getApp().getTicker().remove(this.update, this);
     super.destroy(options);

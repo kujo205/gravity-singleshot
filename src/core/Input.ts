@@ -31,20 +31,26 @@ export class Input {
     this.isMouseDown = true;
     this.mouseX = e.clientX;
     this.mouseY = e.clientY;
-    this.onDownCallbacks.forEach((cb) => cb(this.mouseX, this.mouseY));
+    for (const cb of this.onDownCallbacks) {
+      cb(this.mouseX, this.mouseY);
+    }
   };
 
   private handleMouseUp = (e: MouseEvent): void => {
     this.isMouseDown = false;
     this.mouseX = e.clientX;
     this.mouseY = e.clientY;
-    this.onUpCallbacks.forEach((cb) => cb(this.mouseX, this.mouseY));
+    for (const cb of this.onUpCallbacks) {
+      cb(this.mouseX, this.mouseY);
+    }
   };
 
   private handleMouseMove = (e: MouseEvent): void => {
     this.mouseX = e.clientX;
     this.mouseY = e.clientY;
-    this.onMoveCallbacks.forEach((cb) => cb(this.mouseX, this.mouseY));
+    for (const cb of this.onMoveCallbacks) {
+      cb(this.mouseX, this.mouseY);
+    }
   };
 
   private handleTouchStart = (e: TouchEvent): void => {
@@ -54,7 +60,9 @@ export class Input {
       this.isMouseDown = true;
       this.mouseX = touch.clientX;
       this.mouseY = touch.clientY;
-      this.onDownCallbacks.forEach((cb) => cb(this.mouseX, this.mouseY));
+      for (const cb of this.onDownCallbacks) {
+        cb(this.mouseX, this.mouseY);
+      }
     }
   };
 
@@ -65,7 +73,9 @@ export class Input {
       if (!touch) return;
       this.mouseX = touch.clientX;
       this.mouseY = touch.clientY;
-      this.onUpCallbacks.forEach((cb) => cb(this.mouseX, this.mouseY));
+      for (const cb of this.onUpCallbacks) {
+        cb(this.mouseX, this.mouseY);
+      }
     }
   };
 
@@ -75,7 +85,9 @@ export class Input {
       if (!touch) return;
       this.mouseX = touch.clientX;
       this.mouseY = touch.clientY;
-      this.onMoveCallbacks.forEach((cb) => cb(this.mouseX, this.mouseY));
+      for (const cb of this.onMoveCallbacks) {
+        cb(this.mouseX, this.mouseY);
+      }
     }
   };
 

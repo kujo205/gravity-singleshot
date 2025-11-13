@@ -1,5 +1,5 @@
-import * as PIXI from 'pixi.js';
 import type { ISceneManager } from '@types';
+import * as PIXI from 'pixi.js';
 
 export abstract class Scene extends PIXI.Container {
   protected sceneManager: ISceneManager;
@@ -34,7 +34,7 @@ export abstract class Scene extends PIXI.Container {
   /**
    * Clean up resources when scene is destroyed
    */
-  public destroy(options?: Parameters<PIXI.Container['destroy']>[0]): void {
+  public override destroy(options?: Parameters<PIXI.Container['destroy']>[0]): void {
     super.destroy(options);
   }
 }

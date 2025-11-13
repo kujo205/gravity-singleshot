@@ -1,4 +1,4 @@
-import type { Vector2D, Platform } from '@types';
+import type { Platform, Vector2D } from '@types';
 
 export class TrajectoryPreviewSystem {
   private points: Vector2D[] = [];
@@ -15,8 +15,8 @@ export class TrajectoryPreviewSystem {
     platforms: Platform[]
   ): Vector2D[] {
     this.points = [];
-    let pos = { ...startPos };
-    let vel = { ...velocity };
+    const pos = { ...startPos };
+    const vel = { ...velocity };
 
     for (let i = 0; i < this.maxPoints; i++) {
       // Apply gravity

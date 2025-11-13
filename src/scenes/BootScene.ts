@@ -1,7 +1,6 @@
 import { Scene } from '@core/Scene';
 import type { ISceneManager } from '@types';
 import * as PIXI from 'pixi.js';
-import { Assets } from '@core/Assets';
 
 export class BootScene extends Scene {
   private loadingText: PIXI.Text;
@@ -79,7 +78,7 @@ export class BootScene extends Scene {
     // Nothing to update during loading
   }
 
-  public resize(width: number, height: number): void {
+  public override resize(width: number, height: number): void {
     super.resize(width, height);
     this.loadingText.position.set(width / 2, height / 2 - 50);
     this.loadingBar.position.set(width / 2 - 200, height / 2 + 20);

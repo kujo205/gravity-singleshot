@@ -15,7 +15,7 @@ export class CameraSystem {
   /**
    * Update camera to follow target
    */
-  public update(target: Vector2D, deltaTime: number): void {
+  public update(target: Vector2D, _deltaTime: number): void {
     // Center target on screen
     this.target.x = target.x - this.screenWidth / 2;
     this.target.y = target.y - this.screenHeight / 2;

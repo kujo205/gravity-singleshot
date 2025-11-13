@@ -1,5 +1,5 @@
 import type { Level } from '@types';
-import { validateLevel, levelSchemaToLevel, type LevelSchema } from './schema';
+import { levelSchemaToLevel, validateLevel } from './schema';
 
 export class LevelFactory {
   private levels: Map<string, Level> = new Map();

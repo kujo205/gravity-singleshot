@@ -1,4 +1,4 @@
-import type { Vector2D, Platform } from '@types';
+import type { Platform, Vector2D } from '@types';
 
 export class CollisionSystem {
   /**
@@ -46,7 +46,7 @@ export class CollisionSystem {
   public resolvePlatformCollision(
     position: Vector2D,
     velocity: Vector2D,
-    radius: number,
+    _radius: number,
     platform: Platform
   ): Vector2D {
     const restitution = platform.type === 'bouncy' ? 1.2 : 0.6;
@@ -77,7 +77,13 @@ export class CollisionSystem {
   /**
    * Check if point is inside AABB
    */
-  public pointInRect(point: Vector2D, x: number, y: number, width: number, height: number): boolean {
+  public pointInRect(
+    point: Vector2D,
+    x: number,
+    y: number,
+    width: number,
+    height: number
+  ): boolean {
     return point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height;
   }
 }

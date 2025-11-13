@@ -1,4 +1,4 @@
-import type { PlayerProgress, LevelStats } from '@types';
+import type { LevelStats, PlayerProgress } from '@types';
 
 export class Progress {
   private static readonly STORAGE_KEY = 'gravity-singleshot-progress';
@@ -89,7 +89,11 @@ export class Progress {
         stars: 0,
       });
     }
-    return this.progress.levelStats.get(levelId)!;
+    const stats = this.progress.levelStats.get(levelId);
+    if (!stats) {
+      throw new Error(`Level stats not found for ${levelId}`);
+    }
+    return stats;
   }
 
   public isLevelUnlocked(levelIndex: number): boolean {

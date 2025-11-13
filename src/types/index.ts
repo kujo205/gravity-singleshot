@@ -1,5 +1,5 @@
-import type { Scene } from '@core/Scene';
 import type { App } from '@core/App';
+import type { Scene } from '@core/Scene';
 
 export interface ISceneManager {
   register(name: string, sceneClass: SceneConstructor): void;

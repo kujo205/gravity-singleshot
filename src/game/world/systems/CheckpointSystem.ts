@@ -1,4 +1,4 @@
-import type { Vector2D, Checkpoint } from '@types';
+import type { Checkpoint, Vector2D } from '@types';
 
 export class CheckpointSystem {
   private checkpoints: Checkpoint[] = [];

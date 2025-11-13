@@ -1,10 +1,10 @@
-import * as PIXI from 'pixi.js';
 import type { Level, Vector2D } from '@types';
-import { PhysicsSystem } from './systems/PhysicsSystem';
-import { CollisionSystem } from './systems/CollisionSystem';
-import { TrajectoryPreviewSystem } from './systems/TrajectoryPreviewSystem';
-import { CheckpointSystem } from './systems/CheckpointSystem';
+import * as PIXI from 'pixi.js';
 import { CameraSystem } from './systems/CameraSystem';
+import { CheckpointSystem } from './systems/CheckpointSystem';
+import { CollisionSystem } from './systems/CollisionSystem';
+import { PhysicsSystem } from './systems/PhysicsSystem';
+import { TrajectoryPreviewSystem } from './systems/TrajectoryPreviewSystem';
 
 export class World extends PIXI.Container {
   private level: Level;
@@ -133,8 +133,7 @@ export class World extends PIXI.Container {
 
     // Check if reached end
     const distToEnd = Math.sqrt(
-      Math.pow(this.player.x - this.level.end.x, 2) +
-        Math.pow(this.player.y - this.level.end.y, 2)
+      (this.player.x - this.level.end.x) ** 2 + (this.player.y - this.level.end.y) ** 2
     );
     if (distToEnd < this.playerRadius + 20) {
       this.completed = true;

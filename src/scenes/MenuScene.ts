@@ -1,7 +1,7 @@
 import { Scene } from '@core/Scene';
 import type { ISceneManager } from '@types';
-import * as PIXI from 'pixi.js';
 import { Button } from '@ui/Button';
+import * as PIXI from 'pixi.js';
 
 export class MenuScene extends Scene {
   private title: PIXI.Text;
@@ -72,7 +72,7 @@ export class MenuScene extends Scene {
     // Could add menu animations here
   }
 
-  public resize(width: number, height: number): void {
+  public override resize(width: number, height: number): void {
     super.resize(width, height);
     this.title.position.set(width / 2, height / 3);
     this.playButton.position.set(width / 2 - 125, height / 2);

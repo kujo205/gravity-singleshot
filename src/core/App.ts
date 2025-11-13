@@ -1,10 +1,9 @@
+import type { ISceneManager } from '@types';
 import * as PIXI from 'pixi.js';
 import type { Scene } from './Scene';
-import type { ISceneManager } from '@types';
 
 export class App {
   public app: PIXI.Application;
-  private sceneManager: ISceneManager | null = null;
   private currentScene: Scene | null = null;
 
   constructor() {
@@ -20,8 +19,8 @@ export class App {
     document.body.appendChild(this.app.view as HTMLCanvasElement);
   }
 
-  public setSceneManager(sceneManager: ISceneManager): void {
-    this.sceneManager = sceneManager;
+  public setSceneManager(_sceneManager: ISceneManager): void {
+    // Scene manager reference not needed in this implementation
   }
 
   public setScene(scene: Scene): void {

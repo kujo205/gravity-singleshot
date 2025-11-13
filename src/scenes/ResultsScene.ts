@@ -1,9 +1,9 @@
 import { Scene } from '@core/Scene';
+import { Progress } from '@game/services/Progress';
 import type { ISceneManager } from '@types';
-import * as PIXI from 'pixi.js';
 import { Button } from '@ui/Button';
 import { Panel } from '@ui/Panel';
-import { Progress } from '@game/services/Progress';
+import * as PIXI from 'pixi.js';
 
 export class ResultsScene extends Scene {
   private title: PIXI.Text;
@@ -150,7 +150,7 @@ export class ResultsScene extends Scene {
     // Nothing to update
   }
 
-  public resize(width: number, height: number): void {
+  public override resize(width: number, height: number): void {
     super.resize(width, height);
     this.title.position.set(width / 2, 100);
     this.resultsPanel.position.set(width / 2 - 250, 200);
