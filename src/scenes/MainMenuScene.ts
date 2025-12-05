@@ -66,7 +66,7 @@ export class MainMenuScene extends Scene {
 
       const button = new Button(curr.buttonStyle, curr.label, 200);
 
-      button.view.onPress.connect(curr.onClick);
+      button.onClick(curr.onClick);
 
       list.addChild(button);
     }

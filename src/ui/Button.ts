@@ -1,5 +1,6 @@
 import { Container, Graphics, Text, FillGradient } from 'pixi.js';
 import { FancyButton } from '@pixi/ui';
+import { audioManager } from '../game/AudioManager.ts';
 
 export type ButtonStyle = 'primary' | 'secondary' | 'danger' | 'success';
 
@@ -189,5 +190,12 @@ export class Button extends Container {
     }
 
     return graphics;
+  }
+
+  public onClick(callback: () => void): void {
+    this.view.onPress.connect(() => {
+      audioManager.playSound('click');
+      callback();
+    });
   }
 }
