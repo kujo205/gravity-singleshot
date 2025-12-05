@@ -7,24 +7,25 @@ class PixiApp {
   public sceneManager!: SceneManager;
   private starfield?: Starfield;
 
-  init(canvas: HTMLCanvasElement) {
-    console.log('window inner size:', window.innerWidth, window.innerHeight);
-
+  async init(canvas: HTMLCanvasElement) {
     this.app = new PIXI.Application();
 
-    this.app
-      .init({
-        view: canvas,
-        resizeTo: window,
-        width: window.innerWidth,
-        height: window.innerHeight,
-        backgroundColor: 0x000000
-      })
-      .then(() => {
-        this.initializeBackgroundWithStars();
-      });
+    await this.app.init({
+      view: canvas,
+      resizeTo: window,
+      width: window.innerWidth,
+      height: window.innerHeight,
+      backgroundColor: 0x000000,
+      autoDensity: true
+    });
+
+    this.initializeBackgroundWithStars();
+
+    globalThis.__PIXI_APP__ = this.app;
 
     this.sceneManager = new SceneManager(this.app);
+
+    this.sceneManager.changeScene('MAIN_MENU');
 
     window.addEventListener('resize', () => {
       this.app.renderer.resize(window.innerWidth, window.innerHeight);
@@ -35,13 +36,11 @@ class PixiApp {
   private initializeBackgroundWithStars() {
     const app = this.app;
 
-    // Flush previous starfield if it exists
     if (this.starfield) {
       this.starfield.destroy();
     }
 
-    // Create a new one
-    this.starfield = new Starfield(app, 4, 1000);
+    this.starfield = new Starfield(app, 2, 400);
   }
 }
 

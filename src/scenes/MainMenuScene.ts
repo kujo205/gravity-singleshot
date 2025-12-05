@@ -1,92 +1,92 @@
-import { Scene } from './Scene';
-import { Container, Text, TextStyle, FillGradient } from 'pixi.js';
-import { FancyButton } from '@pixi/ui';
-
-async function navigateTo(path: string) {
-  const { goto } = await import('$app/navigation');
-  goto(path);
-}
+import { Scene } from './Scene.ts';
+import { emitSceneChange } from '$lib/sceneChange.ts';
+import { Button, type ButtonStyle } from '../ui/Button.ts';
+import { List } from '@pixi/ui';
+import { Application, Text, Container } from 'pixi.js';
 
 export class MainMenuScene extends Scene {
-  private buttons: Record<string, FancyButton> = {};
+  constructor(app: Application) {
+    super('MainMenuScene', app);
 
-  constructor() {
-    super('MainMenuScene');
+    console.log('rendering main menu scene');
     this.buildUI();
   }
 
   private buildUI() {
-    const { innerWidth: w, innerHeight: h } = window;
+    const menuButtons = [
+      {
+        buttonStyle: 'primary',
+        label: 'Play the game',
+        onClick: () => {
+          alert(
+            'not implemented, need to save selected round to state and than redirect to game scene'
+          );
+        }
+      },
+      {
+        buttonStyle: 'success',
+        label: 'Choose round',
+        onClick: () => emitSceneChange('ROUND_SELECTION')
+      },
+      {
+        buttonStyle: 'secondary',
+        label: 'Settings',
+        onClick: () => alert('setting not implemented')
+      },
+      {
+        buttonStyle: 'secondary',
+        label: 'About this game',
+        onClick: () => alert('not implemented')
+      }
+    ] satisfies Array<{ label: string; buttonStyle: ButtonStyle; onClick: () => void }>;
 
-    // === Gradient title fill ===
-    const gradient = new FillGradient(0, 0, 0, 200); // x0, y0, x1, y1
-    gradient.addColorStop(0, '#c084fc'); // top color
-    gradient.addColorStop(1, '#7dd3fc'); // bottom color
-
-    // === Title ===
+    // Create game title
     const title = new Text({
       text: 'Gravity Singleshot',
-      style: new TextStyle({
-        fill: gradient,
-        fontSize: 72,
-        fontWeight: '900',
-        dropShadow: true,
-        dropShadowColor: '#000',
-        dropShadowDistance: 6,
-        dropShadowBlur: 8,
-        fontFamily: 'Orbitron, Arial, sans-serif'
-      })
+      style: {
+        fontFamily: 'Arial',
+        fontSize: 48,
+        fontWeight: 'bold',
+        fill: 0xffffff,
+        align: 'center',
+        resolution: 5
+      }
+    });
+    title.anchor.set(0.5, 0);
+
+    // Create button list
+    const list = new List({
+      items: [],
+      type: 'vertical',
+      elementsMargin: 10
     });
 
-    title.anchor.set(0.5);
-    title.position.set(w / 2, h / 2 - 200);
-    this.addChild(title);
+    for (let i = 0; i < menuButtons.length; i++) {
+      const curr = menuButtons[i];
 
-    // === Buttons container ===
-    const buttonContainer = new Container();
-    buttonContainer.x = w / 2;
-    buttonContainer.y = h / 2 + 50;
-    this.addChild(buttonContainer);
+      const button = new Button(curr.buttonStyle, curr.label, 200);
 
-    // === Buttons config ===
-    const buttons = [
-      { label: 'Start', route: '/rounds' },
-      { label: 'About', route: '/about' },
-      { label: 'Sandbox', route: '/sandbox' }
-    ];
+      button.view.onPress.connect(curr.onClick);
 
-    buttons.forEach((btn, i) => {
-      const button = new FancyButton({
-        defaultView: this.createButtonText(btn.label, '#ffffff'),
-        hoverView: this.createButtonText(btn.label, '#a78bfa'),
-        pressedView: this.createButtonText(btn.label, '#6d28d9'),
-        anchor: 0.5
-      });
+      list.addChild(button);
+    }
 
-      button.y = i * 80;
-      button.onPress.connect(() => navigateTo(btn.route));
+    // Create a container for title and list
+    const menuContainer = new Container();
+    menuContainer.addChild(title);
+    menuContainer.addChild(list);
 
-      this.buttons[btn.label] = button;
-      buttonContainer.addChild(button);
-    });
+    // Position title and list relative to each other
+    title.x = 100; // Half of button width (200/2)
+    title.y = 0;
 
-    buttonContainer.pivot.y = (buttons.length * 80) / 2;
-  }
+    list.x = 0;
+    list.y = title.height + 40; // 40px spacing below title
 
-  private createButtonText(label: string, color: string) {
-    const text = new Text({
-      text: label,
-      style: new TextStyle({
-        fill: color,
-        fontSize: 36,
-        fontFamily: 'Orbitron, Arial, sans-serif',
-        fontWeight: '600',
-        dropShadow: true,
-        dropShadowColor: '#000',
-        dropShadowBlur: 4
-      })
-    });
-    text.anchor.set(0.5);
-    return text;
+    // Center the entire menu container
+    menuContainer.x = this.width / 2 - 100;
+    menuContainer.y = this.height / 3 - title.height - 20;
+
+    this.addChild(menuContainer);
   }
 }
