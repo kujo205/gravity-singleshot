@@ -1,10 +1,24 @@
-import { Container } from 'pixi.js';
+import { Container, Application } from 'pixi.js';
+import { Graphics } from 'pixi.js';
 
 export class Scene extends Container {
+  /**
+   * Name of the scene
+   */
   name: string;
 
-  constructor(sceneName: string) {
+  constructor(sceneName: string, app: Application) {
     super();
     this.name = sceneName;
+
+    console.log('width', app.screen.width);
+    console.log('height', app.screen.height);
+
+    // Create a transparent background that defines the scene size
+    const background = new Graphics();
+    background.rect(0, 0, app.screen.width, app.screen.height);
+    background.fill({ color: 0x000000, alpha: 0 });
+
+    this.addChildAt(background, 0);
   }
 }

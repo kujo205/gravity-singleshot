@@ -39,7 +39,7 @@
     ]
   },
   "dependencies": {
-    "pixi.js": "^8.14.1",
-    "pixijs": "^7.1.4"
+    "@pixi/ui": "^2.2.7",
+    "pixi.js": "^8.14.1"
   }
 }

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@pixi/ui':
+        specifier: ^2.2.7
+        version: 2.2.7(pixi.js@8.14.1)
       pixi.js:
         specifier: ^8.14.1
         version: 8.14.1
@@ -390,6 +393,11 @@ packages:
 
   '@pixi/colord@2.9.6':
     resolution: {integrity: sha512-nezytU2pw587fQstUu1AsJZDVEynjskwOL+kibwcdxsMBFqPsFFNA7xl0ii/gXuDi6M0xj3mfRJj8pBSc2jCfA==}
+
+  '@pixi/ui@2.2.7':
+    resolution: {integrity: sha512-YMVx3WImhOc/8Navqj+d4SKVNAjyuHecvMGFIdh8NPIfzwgV3MoxIkwswHcuGpxQAljG1psMbMHVIAEKznN9oA==}
+    peerDependencies:
+      pixi.js: ^8.6.2
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
@@ -1767,9 +1775,15 @@ packages:
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
 
+  tweedle.js@2.1.0:
+    resolution: {integrity: sha512-0ReQgVjepoZkE6t0upWNgCRbplHkQJQYk1LStXugwSR728GLFmGDRuaQJlxeC/iBlxud6+P1RdODjaO25vHAqw==}
+
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
+
+  typed-signals@2.5.0:
+    resolution: {integrity: sha512-m9lHc3eBCJerXYdx+G0uWZihyUXdqTzzgOdqiDDsoUo75WjhFJH6vP5/6w/xhyu04zoxHUqgYhf9FEt85dk/Ng==}
 
   typescript-eslint@8.46.4:
     resolution: {integrity: sha512-KALyxkpYV5Ix7UhvjTwJXZv76VWsHG+NjNlt/z+a17SOQSiOcBdUXdbJdyXi7RPxrBFECtFOiPwUJQusJuCqrg==}
@@ -2128,6 +2142,12 @@ snapshots:
       rimraf: 3.0.2
 
   '@pixi/colord@2.9.6': {}
+
+  '@pixi/ui@2.2.7(pixi.js@8.14.1)':
+    dependencies:
+      pixi.js: 8.14.1
+      tweedle.js: 2.1.0
+      typed-signals: 2.5.0
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -3602,9 +3622,13 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
+  tweedle.js@2.1.0: {}
+
   type-check@0.4.0:
     dependencies:
       prelude-ls: 1.2.1
+
+  typed-signals@2.5.0: {}
 
   typescript-eslint@8.46.4(eslint@9.39.1)(typescript@5.9.3):
     dependencies:
