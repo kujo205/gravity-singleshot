@@ -16,7 +16,7 @@ export class MainMenuScene extends Scene {
     const menuButtons = [
       {
         buttonStyle: 'primary',
-        label: 'Play the game',
+        label: 'PLAY THE GAME',
         onClick: () => {
           alert(
             'not implemented, need to save selected round to state and than redirect to game scene'
@@ -24,25 +24,25 @@ export class MainMenuScene extends Scene {
         }
       },
       {
-        buttonStyle: 'success',
-        label: 'Choose round',
+        buttonStyle: 'secondary',
+        label: 'CHOOSE ROUND',
         onClick: () => emitSceneChange('ROUND_SELECTION')
       },
       {
-        buttonStyle: 'secondary',
-        label: 'Settings',
+        buttonStyle: 'outline',
+        label: 'SETTINGS',
         onClick: () => alert('setting not implemented')
       },
       {
-        buttonStyle: 'secondary',
-        label: 'About this game',
+        buttonStyle: 'outline',
+        label: 'ABOUT THIS GAME',
         onClick: () => alert('not implemented')
       }
     ] satisfies Array<{ label: string; buttonStyle: ButtonStyle; onClick: () => void }>;
 
     // Create game title
     const title = new Text({
-      text: 'Gravity Singleshot',
+      text: 'GRAVITY SINGLESHOT',
       style: {
         fontFamily: 'Arial',
         fontSize: 48,

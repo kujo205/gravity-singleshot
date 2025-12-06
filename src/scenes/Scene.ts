@@ -7,8 +7,11 @@ export class Scene extends Container {
    */
   name: string;
 
+  app: Application;
+
   constructor(sceneName: string, app: Application) {
     super();
+    this.app = app;
     this.name = sceneName;
 
     console.log('width', app.screen.width);

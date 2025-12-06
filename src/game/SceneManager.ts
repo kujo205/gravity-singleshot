@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-import { onSceneChange } from '$lib/sceneChange.ts';
+import { onSceneChange } from '$lib/sceneChange';
 import { config, type TGameScenes } from '../config';
 
 export class SceneManager {
