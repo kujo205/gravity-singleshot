@@ -1,4 +1,4 @@
-import { MainMenuScene, GameScene, RoundSelectionScene } from './scenes';
+import { MainMenuScene, GameScene, RoundSelectionScene } from '../scenes';
 
 const gameScenes = {
   MAIN_MENU: MainMenuScene,

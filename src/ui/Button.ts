@@ -1,8 +1,9 @@
 import { Container, Graphics, Text, FillGradient } from 'pixi.js';
 import { FancyButton } from '@pixi/ui';
 import { audioManager } from '../game/AudioManager.ts';
+import { colors } from '../config/colors.ts';
 
-export type ButtonStyle = 'primary' | 'secondary' | 'danger' | 'success';
+export type ButtonStyle = 'primary' | 'secondary' | 'danger' | 'outline';
 
 interface ButtonStyleConfig {
   fillType: 'gradient' | 'solid';
@@ -19,23 +20,34 @@ interface ButtonStyleConfig {
 const BUTTON_STYLES: Record<ButtonStyle, ButtonStyleConfig> = {
   primary: {
     fillType: 'gradient',
-    defaultColor: { start: 0x22d3ee, end: 0x3b82f6 }, // cyan to blue gradient
-    hoverColor: { start: 0x22d3ee, end: 0x2563eb },
+    defaultColor: { start: colors.main, end: colors.mainDarker100 }, // cyan to blue gradient
+    hoverColor: { start: colors.main, end: colors.mainDarker300 },
     pressedColor: { start: 0x0891b2, end: 0x1d4ed8 },
     borderColor: 0x22d3ee,
     borderAlpha: 0.6,
-    textColor: 0xffffff,
+    textColor: colors.textPrimary,
     glowColor: 0x22d3ee,
     glowAlpha: 0.3
   },
   secondary: {
+    fillType: 'gradient',
+    defaultColor: { start: 0xa78bfa, end: 0x8b5cf6 }, // purple gradient
+    hoverColor: { start: 0xc4b5fd, end: 0xa78bfa },
+    pressedColor: { start: 0x7c3aed, end: 0x6d28d9 },
+    borderColor: 0xa78bfa,
+    borderAlpha: 0.5,
+    textColor: colors.textPrimary,
+    glowColor: 0xa78bfa,
+    glowAlpha: 0.3
+  },
+  outline: {
     fillType: 'solid',
     defaultColor: 0x1e293b, // dark slate with transparency
     hoverColor: 0x334155,
     pressedColor: 0x0f172a,
     borderColor: 0x475569,
     borderAlpha: 0.3,
-    textColor: 0x94a3b8,
+    textColor: colors.textPrimary,
     glowColor: 0x22d3ee,
     glowAlpha: 0.2
   },
@@ -46,19 +58,8 @@ const BUTTON_STYLES: Record<ButtonStyle, ButtonStyleConfig> = {
     pressedColor: { start: 0xb91c1c, end: 0x991b1b },
     borderColor: 0xef4444,
     borderAlpha: 0.5,
-    textColor: 0xffffff,
+    textColor: colors.textPrimary,
     glowColor: 0xef4444,
-    glowAlpha: 0.3
-  },
-  success: {
-    fillType: 'gradient',
-    defaultColor: { start: 0xa78bfa, end: 0x8b5cf6 }, // purple gradient
-    hoverColor: { start: 0xc4b5fd, end: 0xa78bfa },
-    pressedColor: { start: 0x7c3aed, end: 0x6d28d9 },
-    borderColor: 0xa78bfa,
-    borderAlpha: 0.5,
-    textColor: 0xffffff,
-    glowColor: 0xa78bfa,
     glowAlpha: 0.3
   }
 };
