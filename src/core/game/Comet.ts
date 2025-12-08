@@ -1,5 +1,7 @@
 import { Graphics } from 'pixi.js';
 import { GameObject } from './GameObject.ts';
+import { Gravitational } from './Gravitational.ts';
+import { PhysicsEngine } from './PhysicalEngine.ts';
 
 const COMET_CONFIG = {
   radius: 12,
@@ -15,7 +17,7 @@ const COMET_CONFIG = {
 
   // Force indicator
   minForce: 50,
-  maxForce: 500,
+  maxForce: 400,
   forceIndicatorColor: 0xe74c3c,
   forceMultiplier: 4
 };
@@ -97,6 +99,7 @@ export class Comet extends GameObject {
     if (this.aimForce >= COMET_CONFIG.minForce) {
       const velocityX = Math.cos(this.aimAngle) * this.aimForce;
       const velocityY = Math.sin(this.aimAngle) * this.aimForce;
+
       this.launch(velocityX, velocityY);
     }
 
@@ -219,16 +222,23 @@ export class Comet extends GameObject {
     this.cursor = 'default';
   }
 
-  applyForce(forceX: number, forceY: number, deltaTime: number) {
-    this.velocityX += (forceX / this.mass) * deltaTime;
-    this.velocityY += (forceY / this.mass) * deltaTime;
-  }
+  update(deltaTime: number, bodies: GameObject[]) {
+    if (!this.isLaunched) return;
 
-  update(deltaTime: number) {
-    if (!this.isLaunched || !this.isActive) return;
+    const gravitationalBodies = bodies.filter((body) => body instanceof Gravitational);
 
-    this.x += this.velocityX * deltaTime;
-    this.y += this.velocityY * deltaTime;
+    const { forceX, forceY } = PhysicsEngine.calculateTotalForce(this, gravitationalBodies);
+
+    const delta = deltaTime / 30;
+    const velocityMultiplier = deltaTime / 3;
+
+    // Apply force to velocity (F = ma, assuming mass = 1)
+    this.velocityX += forceX * velocityMultiplier;
+    this.velocityY += forceY * velocityMultiplier;
+
+    // Update position
+    this.x += this.velocityX * delta;
+    this.y += this.velocityY * delta;
   }
 
   reset() {

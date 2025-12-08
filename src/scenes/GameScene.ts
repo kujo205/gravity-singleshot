@@ -1,5 +1,5 @@
 import { Scene } from './Scene.ts';
-import { Application, Container } from 'pixi.js';
+import { Application, Container, Ticker } from 'pixi.js';
 import { gameState } from '../core/game/GameState.ts';
 import { Button } from '../ui/Button.ts';
 import { emitSceneChange } from '$lib/sceneChange.ts';
@@ -7,6 +7,7 @@ import { emitSceneChange } from '$lib/sceneChange.ts';
 export class GameScene extends Scene {
   private uiContainer?: Container;
   private headerContainer?: Container;
+  private gameLoopCallback?: (delta: Ticker) => void;
 
   constructor(app: Application) {
     super('GameScene', app);
@@ -22,6 +23,14 @@ export class GameScene extends Scene {
 
     this.uiContainer = new Container();
     gameState.loadGameState(this.uiContainer);
+
+    // Store reference to the callback for later removal
+    this.gameLoopCallback = (delta: Ticker) => {
+      gameState.update(delta.deltaTime);
+    };
+
+    this.app.ticker.add(this.gameLoopCallback);
+
     this.addChild(this.uiContainer);
   }
 
@@ -46,12 +55,22 @@ export class GameScene extends Scene {
   }
 
   destroy(options?: boolean | object) {
+    // Remove ticker callback to stop game loop
+    if (this.gameLoopCallback) {
+      this.app.ticker.remove(this.gameLoopCallback);
+      this.gameLoopCallback = undefined;
+    }
+
     if (this.uiContainer) {
       this.uiContainer.destroy({ children: true });
+      this.uiContainer = undefined;
     }
+
     if (this.headerContainer) {
       this.headerContainer.destroy({ children: true });
+      this.headerContainer = undefined;
     }
+
     super.destroy(options);
   }
 }

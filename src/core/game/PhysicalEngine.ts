@@ -1,20 +1,27 @@
 import { Comet } from './Comet';
-import { Planet } from './Planets.ts';
-import { Gravitational, Force } from './types.ts';
+import { type Gravitational, type Force } from './types.ts';
+import { Gravitational } from './Gravitational.ts';
 
 export class PhysicsEngine {
   // Tune this for gameplay feel
   static G: number = 100;
 
   /**
-   * Calculate gravitational force between comet and a single planet
+   * Calculate gravitational force between comet and a single planet.
+   * Only applies gravity if comet is within the planet's gravitational zone.
    */
   static calculateGravityForce(comet: Comet, body: Gravitational): Force {
     const dx = body.x - comet.x;
     const dy = body.y - comet.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
+    // No gravity if comet is inside the planet
     if (distance < body.radius) {
+      return { forceX: 0, forceY: 0 };
+    }
+
+    // No gravity if comet is outside gravitational zone
+    if (distance > body.gravitationalZoneRadius) {
       return { forceX: 0, forceY: 0 };
     }
 
