@@ -1,6 +1,6 @@
 import { Container, Graphics, Text, FillGradient } from 'pixi.js';
 import { FancyButton } from '@pixi/ui';
-import { audioManager } from '../game/AudioManager.ts';
+import { audioManager } from '../core/AudioManager.ts';
 import { colors } from '../config/colors.ts';
 
 export type ButtonStyle = 'primary' | 'secondary' | 'danger' | 'outline';
