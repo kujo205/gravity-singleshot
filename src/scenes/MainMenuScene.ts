@@ -18,9 +18,10 @@ export class MainMenuScene extends Scene {
         buttonStyle: 'primary',
         label: 'PLAY THE GAME',
         onClick: () => {
-          alert(
-            'not implemented, need to save selected round to state and than redirect to game scene'
-          );
+          emitSceneChange('GAME_SCENE');
+          // alert(
+          //   'not implemented, need to save selected round to state and than redirect to game scene'
+          // );
         }
       },
       {
