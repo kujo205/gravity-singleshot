@@ -1,6 +1,6 @@
 import { Graphics } from 'pixi.js';
 import { GameObject } from './GameObject.ts';
-import { type Gravitational } from './types.ts';
+import { Gravitational } from './Gravitational.ts';
 
 export type PlanetStyle = 'green' | 'blue' | 'red';
 
@@ -31,7 +31,7 @@ const PLANET_STYLES: Record<PlanetStyle, PlanetConfig> = {
     gravitationalZoneColor: 0x3498db
   },
   red: {
-    mass: 1000,
+    mass: 2000,
     radius: 30,
     color: 0xe74c3c,
     outlineColor: 0xc0392b,
@@ -43,7 +43,7 @@ const PLANET_STYLES: Record<PlanetStyle, PlanetConfig> = {
 const HOVER_SCALE = 1.03;
 const HOVER_BRIGHTNESS = 1.5;
 
-export class Planet extends GameObject implements Gravitational {
+export class Planet extends Gravitational {
   private graphics: Graphics;
 
   public mass: number;
@@ -55,10 +55,11 @@ export class Planet extends GameObject implements Gravitational {
 
   private isHovered: boolean = false;
 
-  constructor(initialX: number, initialY: number, style: PlanetStyle = 'medium') {
-    super(initialX, initialY, 'planet');
-
+  constructor(initialX: number, initialY: number, style: PlanetStyle = 'green') {
     const config = PLANET_STYLES[style];
+
+    super(initialX, initialY, config.mass, config.radius, config.gravitationalZoneRadius, 'planet');
+
     this.mass = config.mass;
     this.radius = config.radius;
     this.color = config.color;
