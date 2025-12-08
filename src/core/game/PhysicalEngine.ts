@@ -1,6 +1,7 @@
 import { Comet } from './Comet';
 import { type Gravitational, type Force } from './types.ts';
 import { Gravitational } from './Gravitational.ts';
+import { CollisionError } from './CollisionError.ts';
 
 export class PhysicsEngine {
   // Tune this for gameplay feel
@@ -17,7 +18,7 @@ export class PhysicsEngine {
 
     // No gravity if comet is inside the planet
     if (distance < body.radius) {
-      return { forceX: 0, forceY: 0 };
+      throw new CollisionError();
     }
 
     // No gravity if comet is outside gravitational zone
