@@ -6,7 +6,6 @@ export function createDummyRound(): GameRound {
   return new GameRound(
     1,
     [
-      new Planet(120, 400, 'green'),
       new Planet(120, 200, 'green'),
       new Planet(450, 200, 'blue'),
       new Planet(800, 500, 'red'),

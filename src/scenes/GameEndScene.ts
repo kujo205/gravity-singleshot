@@ -3,18 +3,29 @@ import { emitSceneChange } from '$lib/sceneChange.ts';
 import { Button } from '../ui/Button.ts';
 import { Application, Text, Container, TextStyle } from 'pixi.js';
 import { gameState } from '../core/game/GameState.ts';
+import { BgGridPattern } from '../ui/BgGridPattern.ts';
 
 abstract class GameEndScene extends Scene {
   protected uiContainer?: Container;
 
   constructor(name: string, app: Application) {
     super(name, app);
+
+    this.buildBg();
     this.buildUI();
   }
 
   protected abstract getTitle(): string;
   protected abstract getTitleColor(): number;
   protected abstract getButtons(): Array<{ label: string; action: () => void }>;
+
+  private buildBg() {
+    const { width, height } = this.app.screen;
+
+    const bgGridPattern = new BgGridPattern(width, height);
+
+    this.addChild(bgGridPattern);
+  }
 
   protected buildUI() {
     if (this.uiContainer) {
@@ -65,7 +76,7 @@ abstract class GameEndScene extends Scene {
     timeText.y = 0;
 
     const diamondsText = new Text({
-      text: `Diamonds: ${gameState.currentRound?.diamondsCollected || 0} / ${gameState.currentRound?.totalDiamonds || 0}`,
+      text: `Diamonds collected: ${gameState.currentRound?.diamondsCollected || 0} / ${gameState.currentRound?.totalDiamonds || 0}`,
       style: statsStyle
     });
     diamondsText.anchor.set(0.5);
