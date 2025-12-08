@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { pixiApp } from '../game/App.ts';
+  import { pixiApp } from '../core/App.ts';
 
   let canvas = $state<HTMLCanvasElement>();
 
