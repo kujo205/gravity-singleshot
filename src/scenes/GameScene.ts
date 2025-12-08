@@ -3,6 +3,7 @@ import { Application, Container, Ticker } from 'pixi.js';
 import { gameState } from '../core/game/GameState.ts';
 import { Button } from '../ui/Button.ts';
 import { emitSceneChange } from '$lib/sceneChange.ts';
+import { CollisionError } from '../core/game/CollisionError.ts';
 
 export class GameScene extends Scene {
   private uiContainer?: Container;
@@ -26,7 +27,15 @@ export class GameScene extends Scene {
 
     // Store reference to the callback for later removal
     this.gameLoopCallback = (delta: Ticker) => {
-      gameState.update(delta.deltaTime);
+      try {
+        gameState.update(delta.deltaTime);
+      } catch (err) {
+        if (err instanceof CollisionError) {
+          gameState.lastGameEndTime = Date.now();
+          emitSceneChange('LOST_GAME_SCENE');
+          this.app.ticker.remove(this.gameLoopCallback);
+        }
+      }
     };
 
     this.app.ticker.add(this.gameLoopCallback);
