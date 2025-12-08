@@ -1,7 +1,7 @@
 import { assert } from '$lib/helpers/assert.ts';
 import type { Container } from 'pixi.js';
 import { createDummyRound } from './rounds.ts';
-import { type Gravitational, type RoundGetter } from './types.ts';
+import { type RoundGetter } from './types.ts';
 import type { GameRound } from './GameRound.ts';
 import { Comet } from './Comet.ts';
 
@@ -15,6 +15,10 @@ export class GameState {
    * current  y coordinate
    */
   currentCometY: number = 0;
+
+  lastGameStartTime: number = 0;
+
+  lastGameEndTime: number = 0;
 
   /**
    * a list of all available round objects and their state related to how player played
@@ -36,6 +40,7 @@ export class GameState {
     assert(typeof this.currentlySelectedIndex === 'number', 'no round is selected');
 
     this.currentRound = this.roundGetters[this.currentlySelectedIndex]();
+    this.lastGameStartTime = Date.now();
 
     for (const round of this.currentRound.roundGameObjects) {
       parentContainer.addChild(round);
@@ -51,6 +56,13 @@ export class GameState {
       }
     }
     console.log('delta time', deltaTime);
+  }
+
+  getElapsedTime() {
+    console.log('getElapsedTime');
+    console.log('lastGameEndTime', this.lastGameEndTime);
+    console.log('lastGameStartTime', this.lastGameStartTime);
+    return this.lastGameEndTime - this.lastGameStartTime;
   }
 }
 
