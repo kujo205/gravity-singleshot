@@ -120,20 +120,6 @@ export class Planet extends Gravitational {
   }
 
   /**
-   * Check if a point is within gravitational zone
-   */
-  isInGravitationalZone(x: number, y: number): boolean {
-    const dx = x - this.x;
-    const dy = y - this.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    return distance <= this.gravitationalZoneRadius;
-  }
-
-  redraw() {
-    this.draw();
-  }
-
-  /**
    * Clean up event listeners
    */
   destroy() {

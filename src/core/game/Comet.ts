@@ -29,6 +29,7 @@ export class Comet extends GameObject {
   velocityX: number = 0;
   velocityY: number = 0;
   mass: number = 1;
+  radius: number = COMET_CONFIG.radius;
   isLaunched: boolean = false;
   isActive: boolean = true;
 

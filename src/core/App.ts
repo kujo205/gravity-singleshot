@@ -1,6 +1,11 @@
 import * as PIXI from 'pixi.js';
+import { Assets } from 'pixi.js';
 import { SceneManager } from './SceneManager';
 import { Starfield } from './Starfield.ts';
+
+declare global {
+  let __PIXI_APP__: PIXI.Application;
+}
 
 class PixiApp {
   public app!: PIXI.Application;
@@ -18,6 +23,8 @@ class PixiApp {
       backgroundColor: 0x000000,
       autoDensity: true
     });
+
+    await this.loadAssetsBundle();
 
     this.initializeBackgroundWithStars();
 
@@ -41,6 +48,14 @@ class PixiApp {
     }
 
     this.starfield = new Starfield(app, 2, 400);
+  }
+
+  private async loadAssetsBundle() {
+    Assets.addBundle('global-assets', {
+      earth: '/assets/earth.gif'
+    });
+
+    await Assets.loadBundle('global-assets');
   }
 }
 
