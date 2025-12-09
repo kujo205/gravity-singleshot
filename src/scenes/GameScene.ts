@@ -3,7 +3,6 @@ import { Application, Container, Ticker } from 'pixi.js';
 import { gameState } from '../core/game/GameState.ts';
 import { Button } from '../ui/Button.ts';
 import { emitSceneChange } from '$lib/sceneChange.ts';
-import { CollisionError } from '../core/game/CollisionError.ts';
 
 export class GameScene extends Scene {
   private uiContainer?: Container;

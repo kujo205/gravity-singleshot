@@ -12,9 +12,15 @@ export class PhysicsEngine {
    * Only applies gravity if comet is within the planet's gravitational zone.
    */
   static calculateGravityForce(comet: Comet, body: Gravitational): Force {
-    if (!body || !comet) {
-      return { forceX: 0, forceY: 0 };
+    const defaultForce = this.getDefaultForce();
+
+    if (!body || !comet || !gameState.currentRound) {
+      return defaultForce;
     }
+
+    const round = gameState.currentRound;
+
+    console.log('round', round);
 
     const dx = body.x - comet.x;
     const dy = body.y - comet.y;
@@ -22,7 +28,7 @@ export class PhysicsEngine {
 
     // No gravity if comet is outside gravitational zone
     if (distance > body.gravitationalZoneRadius) {
-      return { forceX: 0, forceY: 0 };
+      return defaultForce;
     }
 
     // Collision if distance is less than sum of both radii
@@ -34,8 +40,7 @@ export class PhysicsEngine {
       } else {
         gameState.triggerEvent('loss');
       }
-      gameState.triggerEvent('gameOver', true);
-      return { forceX: 0, forceY: 0 };
+      return defaultForce;
     }
 
     const forceMagnitude = (this.G * body.mass) / (distance * distance);
@@ -53,6 +58,11 @@ export class PhysicsEngine {
     comet: Comet,
     bodies: Gravitational[]
   ): { forceX: number; forceY: number } {
+    if (comet.isBeyondRoundBounds()) {
+      gameState.triggerEvent('loss');
+      return this.getDefaultForce();
+    }
+
     let totalForceX = 0;
     let totalForceY = 0;
 
@@ -63,5 +73,12 @@ export class PhysicsEngine {
     }
 
     return { forceX: totalForceX, forceY: totalForceY };
+  }
+
+  static getDefaultForce() {
+    return {
+      forceX: 0,
+      forceY: 0
+    };
   }
 }
