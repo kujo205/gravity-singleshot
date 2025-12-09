@@ -2,6 +2,7 @@ import { assert } from '$lib/helpers/assert.ts';
 import type { Container } from 'pixi.js';
 import { GameRound } from './GameRound.ts';
 import { Comet } from './Comet.ts';
+import { emitSceneChange } from '$lib/sceneChange.ts';
 
 type TCallback = () => void;
 type TGameEvent = 'loss' | 'win';
@@ -96,5 +97,19 @@ export class GameState {
     console.log('lastGameEndTime', this.lastGameEndTime);
     console.log('lastGameStartTime', this.lastGameStartTime);
     return this.lastGameEndTime - this.lastGameStartTime;
+  }
+
+  loadNextRound() {
+    assert(typeof this?.currentlySelectedRoundId === 'number', 'round not selected');
+
+    const nextRoundId = this?.currentlySelectedRoundId + 1;
+
+    if (nextRoundId > this.rounds.length) {
+      alert('game over, thankx, this scene is still in progress');
+      // TODO: add game over scene with stats
+    } else {
+      this.currentlySelectedRoundId = nextRoundId;
+      emitSceneChange('GAME_SCENE');
+    }
   }
 }
