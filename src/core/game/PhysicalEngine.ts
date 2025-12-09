@@ -12,13 +12,18 @@ export class PhysicsEngine {
    * Only applies gravity if comet is within the planet's gravitational zone.
    */
   static calculateGravityForce(comet: Comet, body: Gravitational): Force {
-    if (this.isGameOver || !body || !comet) {
+    if (!body || !comet) {
       return { forceX: 0, forceY: 0 };
     }
 
     const dx = body.x - comet.x;
     const dy = body.y - comet.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // No gravity if comet is outside gravitational zone
+    if (distance > body.gravitationalZoneRadius) {
+      return { forceX: 0, forceY: 0 };
+    }
 
     // Collision if distance is less than sum of both radii
     const collisionDistance = body.radius + comet.radius;

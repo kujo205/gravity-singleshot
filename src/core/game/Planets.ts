@@ -1,8 +1,10 @@
-import { Graphics } from 'pixi.js';
+import { Assets, Graphics } from 'pixi.js';
 import { GameObject } from './GameObject.ts';
 import { Gravitational } from './Gravitational.ts';
+import { GifSprite } from 'pixi.js/gif';
 
-export type PlanetStyle = 'green' | 'blue' | 'red';
+export type PlanetStyle = 'green' | 'earth' | 'red' | 'yellow';
+export type TAsset = 'earth';
 
 interface PlanetConfig {
   mass: number;
@@ -11,9 +13,18 @@ interface PlanetConfig {
   outlineColor: number;
   gravitationalZoneRadius: number;
   gravitationalZoneColor: number;
+  asset?: TAsset;
 }
 
 const PLANET_STYLES: Record<PlanetStyle, PlanetConfig> = {
+  yellow: {
+    mass: 300,
+    radius: 20,
+    color: 0xf1c40f,
+    outlineColor: 0xf39c12,
+    gravitationalZoneRadius: 100,
+    gravitationalZoneColor: 0xf1c40f
+  },
   green: {
     mass: 200,
     radius: 15,
@@ -22,13 +33,14 @@ const PLANET_STYLES: Record<PlanetStyle, PlanetConfig> = {
     gravitationalZoneRadius: 80,
     gravitationalZoneColor: 0x2ecc71
   },
-  blue: {
+  earth: {
     mass: 500,
     radius: 20,
     color: 0x3498db,
     outlineColor: 0x2980b9,
     gravitationalZoneRadius: 140,
-    gravitationalZoneColor: 0x3498db
+    gravitationalZoneColor: 0x3498db,
+    asset: 'earth'
   },
   red: {
     mass: 2000,
@@ -56,10 +68,22 @@ export class Planet extends Gravitational {
 
   private isHovered: boolean = false;
 
-  constructor(initialX: number, initialY: number, style: PlanetStyle = 'green') {
+  constructor(
+    initialX: number,
+    initialY: number,
+    style: PlanetStyle = 'green',
+    objectType = 'planet'
+  ) {
     const config = PLANET_STYLES[style];
 
-    super(initialX, initialY, config.mass, config.radius, config.gravitationalZoneRadius, 'planet');
+    super(
+      initialX,
+      initialY,
+      config.mass,
+      config.radius,
+      config.gravitationalZoneRadius,
+      objectType
+    );
 
     this.config = config;
 
@@ -75,7 +99,8 @@ export class Planet extends Gravitational {
       gravitationalZoneRadius: this.config.gravitationalZoneRadius,
       outlineColor: this.config.outlineColor,
       planetColor: this.config.color,
-      planetRadius: this.config.radius
+      planetRadius: this.config.radius,
+      asset: this.config.asset
     });
 
     this.addChild(this.graphics);
@@ -113,6 +138,12 @@ export class Planet extends Gravitational {
   }
 }
 
+export class Earth extends Planet {
+  constructor(initialX: number, initialY: number) {
+    super(initialX, initialY, 'earth', 'earth');
+  }
+}
+
 class PlanetGraphics extends Graphics {
   constructor(
     private config: {
@@ -121,6 +152,7 @@ class PlanetGraphics extends Graphics {
       outlineColor: number;
       planetColor: number;
       planetRadius: number;
+      asset: string;
     }
   ) {
     super();
@@ -154,5 +186,26 @@ class PlanetGraphics extends Graphics {
       color: this.config.outlineColor,
       width: 3
     });
+
+    if (config.asset) {
+      const source = Assets.get('earth');
+
+      const sprite = new GifSprite({
+        source,
+        autoPlay: true,
+        loop: true,
+        autoUpdate: false
+      });
+
+      globalThis.__PIXI_APP__.ticker.add(() => {
+        sprite.update(globalThis.__PIXI_APP__.ticker);
+      });
+
+      sprite.anchor.set(0.5);
+      sprite.width = this.config.planetRadius * 2;
+      sprite.height = this.config.planetRadius * 2;
+
+      this.addChild(sprite);
+    }
   }
 }

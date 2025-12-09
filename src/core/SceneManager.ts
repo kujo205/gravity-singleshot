@@ -2,7 +2,6 @@ import * as PIXI from 'pixi.js';
 
 import { onSceneChange } from '$lib/sceneChange';
 import { config, type TGameScenes } from '../config';
-import { Assets } from 'pixi.js';
 
 export class SceneManager {
   private app: PIXI.Application;
