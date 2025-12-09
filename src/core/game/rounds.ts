@@ -6,10 +6,10 @@ export function createDummyRound(): GameRound {
   return new GameRound(
     1,
     [
-      new Planet(120, 200, 'green'),
-      new Planet(450, 200, 'red'),
-      new Planet(800, 500, 'red'),
-      new Planet(800, 200, 'green'),
+      new Planet(120, 200, 'green-dwarf'),
+      new Planet(450, 200, 'red-giant'),
+      new Planet(800, 500, 'red-giant'),
+      new Planet(800, 200, 'green-dwarf'),
       new Comet(400, 400),
       new Earth(400, 600)
     ],

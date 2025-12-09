@@ -3,8 +3,8 @@ import { GameObject } from './GameObject.ts';
 import { Gravitational } from './Gravitational.ts';
 import { GifSprite } from 'pixi.js/gif';
 
-export type PlanetStyle = 'green' | 'earth' | 'red' | 'yellow';
-export type TAsset = 'earth';
+export type PlanetStyle = 'green' | 'earth' | 'red-giant' | 'yellow';
+export type TAsset = 'earth' | 'red-giant' | 'green-dwarf';
 
 interface PlanetConfig {
   mass: number;
@@ -25,13 +25,14 @@ const PLANET_STYLES: Record<PlanetStyle, PlanetConfig> = {
     gravitationalZoneRadius: 100,
     gravitationalZoneColor: 0xf1c40f
   },
-  green: {
+  'green-dwarf': {
     mass: 200,
     radius: 15,
     color: 0x2ecc71,
     outlineColor: 0x27ae60,
     gravitationalZoneRadius: 80,
-    gravitationalZoneColor: 0x2ecc71
+    gravitationalZoneColor: 0x2ecc71,
+    asset: 'green-dwarf'
   },
   earth: {
     mass: 500,
@@ -42,13 +43,14 @@ const PLANET_STYLES: Record<PlanetStyle, PlanetConfig> = {
     gravitationalZoneColor: 0x3498db,
     asset: 'earth'
   },
-  red: {
+  'red-giant': {
     mass: 2000,
     radius: 30,
     color: 0xe74c3c,
     outlineColor: 0xc0392b,
     gravitationalZoneRadius: 220,
-    gravitationalZoneColor: 0xe74c3c
+    gravitationalZoneColor: 0xe74c3c,
+    asset: 'red-giant'
   }
 };
 
@@ -188,7 +190,7 @@ class PlanetGraphics extends Graphics {
     });
 
     if (config.asset) {
-      const source = Assets.get('earth');
+      const source = Assets.get(config.asset);
 
       const sprite = new GifSprite({
         source,
