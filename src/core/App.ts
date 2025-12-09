@@ -2,15 +2,22 @@ import * as PIXI from 'pixi.js';
 import { Assets } from 'pixi.js';
 import { SceneManager } from './SceneManager';
 import { Starfield } from './Starfield.ts';
+import type { GameRound } from './game/GameRound.ts';
+import { roundsFactory } from './game/rounds.ts';
+import { GameState } from './game/GameState.ts';
 
 declare global {
-  let __PIXI_APP__: PIXI.Application;
+  interface GlobalThis {
+    __PIXI_APP__: PIXI.Application;
+  }
 }
 
 class PixiApp {
   public app!: PIXI.Application;
   public sceneManager!: SceneManager;
   private starfield?: Starfield;
+  public rounds: GameRound[] = [];
+  public gameState: GameState;
 
   async init(canvas: HTMLCanvasElement) {
     this.app = new PIXI.Application();
@@ -24,13 +31,17 @@ class PixiApp {
       autoDensity: true
     });
 
+    globalThis.__PIXI_APP__ = this.app;
+
     await this.loadAssetsBundle();
 
     this.initializeBackgroundWithStars();
 
-    globalThis.__PIXI_APP__ = this.app;
+    this.rounds = roundsFactory();
 
-    this.sceneManager = new SceneManager(this.app);
+    this.gameState = new GameState(this.rounds);
+
+    this.sceneManager = new SceneManager(this.app, this.gameState);
 
     this.sceneManager.changeScene('MAIN_MENU');
 
