@@ -1,6 +1,6 @@
 import { Scene } from './Scene.ts';
 import { Application, Container, Ticker } from 'pixi.js';
-import { gameState } from '../core/game/GameState.ts';
+import { type GameState } from '../core/game/GameState.ts';
 import { Button } from '../ui/Button.ts';
 import { emitSceneChange } from '$lib/sceneChange.ts';
 
@@ -9,8 +9,8 @@ export class GameScene extends Scene {
   private headerContainer?: Container;
   private gameLoopCallback?: (delta: Ticker) => void;
 
-  constructor(app: Application) {
-    super('GameScene', app);
+  constructor(app: Application, gameState: GameState) {
+    super('GameScene', app, gameState);
     this.createHeader();
     this.buildUi();
   }
@@ -23,23 +23,23 @@ export class GameScene extends Scene {
 
     this.uiContainer = new Container();
 
-    gameState.loadGameState(this.uiContainer);
+    this.gameState.loadGameState(this.uiContainer);
 
     this.gameLoopCallback = (delta: Ticker) => {
       try {
-        gameState.update(delta.deltaTime);
+        this.gameState.update(delta.deltaTime);
       } catch (e) {
         // avoid crashes bcs round objects unmouned and were destroyed
       }
     };
 
-    gameState.registerCallback('win', () => {
-      gameState.lastGameEndTime = Date.now();
+    this.gameState.registerCallback('win', () => {
+      this.gameState.lastGameEndTime = Date.now();
       emitSceneChange('WIN_GAME_SCENE');
     });
 
-    gameState.registerCallback('loss', () => {
-      gameState.lastGameEndTime = Date.now();
+    this.gameState.registerCallback('loss', () => {
+      this.gameState.lastGameEndTime = Date.now();
       emitSceneChange('LOST_GAME_SCENE');
     });
 

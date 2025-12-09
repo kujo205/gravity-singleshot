@@ -1,7 +1,7 @@
 import { Comet } from './Comet';
 import { type Force } from './types.ts';
 import { Gravitational } from './Gravitational.ts';
-import { gameState } from './GameState.ts';
+import { GameState } from './GameState.ts';
 
 export class PhysicsEngine {
   // Tune this for gameplay feel
@@ -11,7 +11,7 @@ export class PhysicsEngine {
    * Calculate gravitational force between comet and a single planet.
    * Only applies gravity if comet is within the planet's gravitational zone.
    */
-  static calculateGravityForce(comet: Comet, body: Gravitational): Force {
+  static calculateGravityForce(comet: Comet, body: Gravitational, gameState: GameState): Force {
     const defaultForce = this.getDefaultForce();
 
     if (!body || !comet || !gameState.currentRound) {
@@ -56,9 +56,10 @@ export class PhysicsEngine {
    */
   static calculateTotalForce(
     comet: Comet,
-    bodies: Gravitational[]
+    bodies: Gravitational[],
+    gameState: GameState
   ): { forceX: number; forceY: number } {
-    if (comet.isBeyondRoundBounds()) {
+    if (comet.isBeyondRoundBounds(gameState)) {
       gameState.triggerEvent('loss');
       return this.getDefaultForce();
     }
@@ -67,7 +68,7 @@ export class PhysicsEngine {
     let totalForceY = 0;
 
     for (const body of bodies) {
-      const { forceX, forceY } = this.calculateGravityForce(comet, body);
+      const { forceX, forceY } = this.calculateGravityForce(comet, body, gameState);
       totalForceX += forceX;
       totalForceY += forceY;
     }

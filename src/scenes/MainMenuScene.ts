@@ -3,10 +3,11 @@ import { emitSceneChange } from '$lib/sceneChange.ts';
 import { Button, type ButtonStyle } from '../ui/Button.ts';
 import { List } from '@pixi/ui';
 import { Application, Text, Container } from 'pixi.js';
+import type { GameState } from '../core/game/GameState.ts';
 
 export class MainMenuScene extends Scene {
-  constructor(app: Application) {
-    super('MainMenuScene', app);
+  constructor(app: Application, gameState: GameState) {
+    super('MainMenuScene', app, gameState);
 
     console.log('rendering main menu scene');
     this.buildUI();

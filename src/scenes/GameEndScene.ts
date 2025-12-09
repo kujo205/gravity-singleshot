@@ -2,14 +2,15 @@ import { Scene } from './Scene.ts';
 import { emitSceneChange } from '$lib/sceneChange.ts';
 import { Button } from '../ui/Button.ts';
 import { Application, Text, Container, TextStyle } from 'pixi.js';
-import { gameState } from '../core/game/GameState.ts';
+import { type GameState } from '../core/game/GameState.ts';
 import { BgGridPattern } from '../ui/BgGridPattern.ts';
+import { List } from '@pixi/ui';
 
 abstract class GameEndScene extends Scene {
   protected uiContainer?: Container;
 
-  constructor(name: string, app: Application) {
-    super(name, app);
+  constructor(name: string, app: Application, gameState: GameState) {
+    super(name, app, gameState);
 
     this.buildBg();
     this.buildUI();
@@ -69,14 +70,14 @@ abstract class GameEndScene extends Scene {
     });
 
     const timeText = new Text({
-      text: `Time: ${this.formatTime(gameState.getElapsedTime())}`,
+      text: `Time: ${this.formatTime(this.gameState.getElapsedTime())}`,
       style: statsStyle
     });
     timeText.anchor.set(0.5);
     timeText.y = 0;
 
     const diamondsText = new Text({
-      text: `Diamonds collected: ${gameState.currentRound?.diamondsCollected || 0} / ${gameState.currentRound?.totalDiamonds || 0}`,
+      text: `Diamonds collected: ${this.gameState.currentRound?.diamondsCollected || 0} / ${this.gameState.currentRound?.totalDiamonds || 0}`,
       style: statsStyle
     });
     diamondsText.anchor.set(0.5);
@@ -87,18 +88,23 @@ abstract class GameEndScene extends Scene {
   }
 
   private createButtonsContainer(): Container {
-    const buttonsContainer = new Container();
+    const buttonsContainer = new List({
+      type: 'vertical',
+      elementsMargin: 20
+    });
+
     const buttons = this.getButtons();
     const buttonWidth = 200;
     const buttonHeight = 50;
     const buttonSpacing = 20;
-    const totalWidth = buttons.length * buttonWidth + (buttons.length - 1) * buttonSpacing;
-    const startX = (this.app.screen.width - totalWidth) / 2;
+    const totalHeight = buttons.length * buttonHeight + (buttons.length - 1) * buttonSpacing;
 
-    buttons.forEach((buttonConfig, index) => {
+    // Center the list horizontally and vertically
+    buttonsContainer.x = (this.app.screen.width - buttonWidth) / 2;
+    buttonsContainer.y = (this.app.screen.height - totalHeight) / 2;
+
+    buttons.forEach((buttonConfig) => {
       const button = new Button('outline', buttonConfig.label, buttonWidth, buttonHeight, 8);
-      button.x = startX + index * (buttonWidth + buttonSpacing);
-      button.y = 400;
       button.onClick(buttonConfig.action);
       buttonsContainer.addChild(button);
     });
@@ -123,8 +129,8 @@ abstract class GameEndScene extends Scene {
 }
 
 export class LostGameScene extends GameEndScene {
-  constructor(app: Application) {
-    super('LostGameScene', app);
+  constructor(app: Application, gameState: GameState) {
+    super('LostGameScene', app, gameState);
   }
 
   protected getTitle(): string {
@@ -154,8 +160,8 @@ export class LostGameScene extends GameEndScene {
 }
 
 export class WinGameScene extends GameEndScene {
-  constructor(app: Application) {
-    super('WinGameScene', app);
+  constructor(app: Application, gameState: GameState) {
+    super('WinGameScene', app, gameState);
   }
 
   protected getTitle(): string {
