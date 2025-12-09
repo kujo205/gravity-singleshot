@@ -4,6 +4,7 @@ import { Button } from '../ui/Button.ts';
 import { emitSceneChange } from '$lib/sceneChange.ts';
 import { BgGridPattern } from '../ui/BgGridPattern.ts';
 import { colors } from '../config/colors.ts';
+import type { GameState } from '../core/game/GameState.ts';
 
 interface RoundData {
   roundNumber: number;
@@ -103,8 +104,8 @@ export class RoundSelectionScene extends Scene {
   private roundsContainer: Container;
   private roundCards: RoundCard[] = [];
 
-  constructor(app: Application) {
-    super('RoundSelectionScene', app);
+  constructor(app: Application, gameState: GameState) {
+    super('RoundSelectionScene', app, gameState);
     this.buildUI();
   }
 

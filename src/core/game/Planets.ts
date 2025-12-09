@@ -156,6 +156,8 @@ export class Earth extends Planet {
 }
 
 class PlanetGraphics extends Graphics {
+  sprite?: GifSprite;
+
   constructor(
     private config: {
       gravitationalZoneColor: number;
@@ -201,7 +203,7 @@ class PlanetGraphics extends Graphics {
     if (config.asset) {
       const source = Assets.get(config.asset);
 
-      const sprite = new GifSprite({
+      this.sprite = new GifSprite({
         source,
         autoPlay: true,
         loop: true,
@@ -209,14 +211,20 @@ class PlanetGraphics extends Graphics {
       });
 
       globalThis.__PIXI_APP__.ticker.add(() => {
-        sprite.update(globalThis.__PIXI_APP__.ticker);
+        this?.sprite.update(globalThis.__PIXI_APP__.ticker);
       });
 
-      sprite.anchor.set(0.5);
-      sprite.width = this.config.planetRadius * 2;
-      sprite.height = this.config.planetRadius * 2;
+      this.sprite.anchor.set(0.5);
+      this.sprite.width = this.config.planetRadius * 2;
+      this.sprite.height = this.config.planetRadius * 2;
 
-      this.addChild(sprite);
+      this.addChild(this.sprite);
     }
+  }
+
+  override destroy(options?: any) {
+    this.removeChild(this?.sprite);
+    this?.sprite.stop();
+    super.destroy({ ...options, children: false });
   }
 }

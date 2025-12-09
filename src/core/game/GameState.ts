@@ -1,8 +1,6 @@
 import { assert } from '$lib/helpers/assert.ts';
 import type { Container } from 'pixi.js';
-import { createDummyRound } from './rounds.ts';
-import { type RoundGetter } from './types.ts';
-import type { GameRound } from './GameRound.ts';
+import { GameRound } from './GameRound.ts';
 import { Comet } from './Comet.ts';
 
 type TCallback = () => void;
@@ -24,21 +22,23 @@ export class GameState {
   lastGameEndTime: number = 0;
 
   /**
-   * a list of all available round objects and their state related to how player played
-   */
-  roundGetters: RoundGetter[] = [createDummyRound];
-
-  /**
    * currently selected game round
    */
-  private currentlySelectedIndex?: number | null = 0;
+  private currentlySelectedRoundId?: number | null = 1;
 
   /**
    * reference to the currently loaded game round
    */
-  currentRound?: GameRound;
+  currentRound: GameRound;
 
   callbacks: Array<{ cb: TCallback; event: TGameEvent }> = [];
+
+  constructor(
+    /**
+     * a list of all available round objects and their state related to how player played
+     */
+    protected rounds: GameRound[] = []
+  ) {}
 
   registerCallback(ev: TGameEvent, cb: TCallback) {
     this.callbacks.push({ cb, event: ev });
@@ -46,9 +46,17 @@ export class GameState {
 
   // calls this function when game scene is loaded
   loadGameState(parentContainer: Container) {
-    assert(typeof this.currentlySelectedIndex === 'number', 'no round is selected');
+    const roundTemplateIndex = this.rounds.findIndex((r) => r.id === this.currentlySelectedRoundId);
 
-    this.currentRound = this.roundGetters[this.currentlySelectedIndex]();
+    assert(roundTemplateIndex !== -1, 'no round is selected');
+
+    // setting game state reference
+    this.rounds[roundTemplateIndex].setGameState(this);
+
+    // we need to clone the round cause each time round is unmount all the component are removed
+    this.currentRound = this.rounds[roundTemplateIndex].getSameInstance();
+    this.rounds[roundTemplateIndex] = this.currentRound;
+
     this.lastGameStartTime = Date.now();
 
     for (const round of this.currentRound.roundGameObjects) {
@@ -61,7 +69,7 @@ export class GameState {
 
     for (const gameObject of this.currentRound.roundGameObjects) {
       if (gameObject instanceof Comet) {
-        gameObject.update(deltaTime, this.currentRound.roundGameObjects);
+        gameObject.update(deltaTime, this.currentRound.roundGameObjects, this);
       }
     }
   }
@@ -86,5 +94,3 @@ export class GameState {
     return this.lastGameEndTime - this.lastGameStartTime;
   }
 }
-
-export const gameState = new GameState();

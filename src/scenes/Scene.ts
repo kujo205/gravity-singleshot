@@ -1,5 +1,6 @@
 import { Container, Application } from 'pixi.js';
 import { Graphics } from 'pixi.js';
+import type { GameState } from '../core/game/GameState.ts';
 
 export class Scene extends Container {
   /**
@@ -9,7 +10,11 @@ export class Scene extends Container {
 
   app: Application;
 
-  constructor(sceneName: string, app: Application) {
+  constructor(
+    sceneName: string,
+    app: Application,
+    protected gameState: GameState
+  ) {
     super();
     this.app = app;
     this.name = sceneName;
