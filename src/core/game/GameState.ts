@@ -6,7 +6,7 @@ import type { GameRound } from './GameRound.ts';
 import { Comet } from './Comet.ts';
 
 type TCallback = () => void;
-type TGameEvent = 'loss' | 'win' | 'gameOver';
+type TGameEvent = 'loss' | 'win';
 
 export class GameState {
   /**
