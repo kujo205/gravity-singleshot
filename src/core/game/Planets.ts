@@ -3,8 +3,8 @@ import { GameObject } from './GameObject.ts';
 import { Gravitational } from './Gravitational.ts';
 import { GifSprite } from 'pixi.js/gif';
 
-export type PlanetStyle = 'green' | 'earth' | 'red-giant' | 'yellow';
-export type TAsset = 'earth' | 'red-giant' | 'green-dwarf';
+export type PlanetStyle = 'green-dwarf' | 'earth' | 'red-giant' | 'yellow' | 'blackhole';
+export type TAsset = 'earth' | 'red-giant' | 'green-dwarf' | 'blackhole';
 
 interface PlanetConfig {
   mass: number;
@@ -51,6 +51,15 @@ const PLANET_STYLES: Record<PlanetStyle, PlanetConfig> = {
     gravitationalZoneRadius: 220,
     gravitationalZoneColor: 0xe74c3c,
     asset: 'red-giant'
+  },
+  blackhole: {
+    mass: 5000,
+    radius: 25,
+    color: 0x2d1b4e,
+    outlineColor: 0x4a2c7a,
+    gravitationalZoneRadius: 100,
+    gravitationalZoneColor: 0x6b3fa0,
+    asset: 'blackhole'
   }
 };
 

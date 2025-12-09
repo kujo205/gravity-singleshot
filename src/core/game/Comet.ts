@@ -2,6 +2,7 @@ import { Graphics } from 'pixi.js';
 import { GameObject } from './GameObject.ts';
 import { Gravitational } from './Gravitational.ts';
 import { PhysicsEngine } from './PhysicalEngine.ts';
+import { gameState } from './GameState.ts';
 
 const COMET_CONFIG = {
   radius: 12,
@@ -234,18 +235,17 @@ export class Comet extends GameObject {
     this.y += this.velocityY * delta;
   }
 
-  reset() {
-    this.x = this.initialX;
-    this.y = this.initialY;
-    this.velocityX = 0;
-    this.velocityY = 0;
-    this.isLaunched = false;
-    this.isActive = true;
-    this.isAiming = false;
-    this.aimAngle = 0;
-    this.aimForce = 0;
-    this.cursor = 'pointer';
-    this.clearTrajectory();
+  isBeyondRoundBounds(): boolean {
+    const round = gameState.currentRound;
+
+    if (!round) return false;
+
+    return (
+      this.x < round.roundBounds.point0.x ||
+      this.x > round.roundBounds.point1.x ||
+      this.y < round.roundBounds.point0.y ||
+      this.y > round.roundBounds.point1.y
+    );
   }
 
   destroy() {
