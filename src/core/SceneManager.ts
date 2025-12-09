@@ -21,14 +21,10 @@ export class SceneManager {
     const SceneClass = config.GAME_SCENES[scene];
     const newScene: PIXI.Container = new SceneClass(this.app);
 
-    console.log('Cached assets:', Assets.cache);
-
     if (this.currentScene) {
       this.app.stage.removeChild(this.currentScene);
       this.currentScene.destroy({ children: true, texture: false, textureSource: false });
     }
-
-    console.log('Cached assets:', Assets.cache);
 
     this.currentScene = newScene;
     this.app.stage.addChild(this.currentScene);
