@@ -23,20 +23,26 @@ export class GameScene extends Scene {
     }
 
     this.uiContainer = new Container();
+
     gameState.loadGameState(this.uiContainer);
 
-    // Store reference to the callback for later removal
     this.gameLoopCallback = (delta: Ticker) => {
       try {
         gameState.update(delta.deltaTime);
-      } catch (err) {
-        if (err instanceof CollisionError) {
-          gameState.lastGameEndTime = Date.now();
-          emitSceneChange('LOST_GAME_SCENE');
-          this.app.ticker.remove(this.gameLoopCallback);
-        }
+      } catch (e) {
+        // avoid crashes bcs round objects unmouned and were destroyed
       }
     };
+
+    gameState.registerCallback('win', () => {
+      gameState.lastGameEndTime = Date.now();
+      emitSceneChange('WIN_GAME_SCENE');
+    });
+
+    gameState.registerCallback('loss', () => {
+      gameState.lastGameEndTime = Date.now();
+      emitSceneChange('LOST_GAME_SCENE');
+    });
 
     this.app.ticker.add(this.gameLoopCallback);
 

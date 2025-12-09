@@ -52,6 +52,7 @@ export class Planet extends Gravitational {
   public outlineColor: number;
   public gravitationalZoneRadius: number;
   public gravitationalZoneColor: number;
+  public config: PlanetConfig;
 
   private isHovered: boolean = false;
 
@@ -60,6 +61,8 @@ export class Planet extends Gravitational {
 
     super(initialX, initialY, config.mass, config.radius, config.gravitationalZoneRadius, 'planet');
 
+    this.config = config;
+
     this.mass = config.mass;
     this.radius = config.radius;
     this.color = config.color;
@@ -67,8 +70,14 @@ export class Planet extends Gravitational {
     this.gravitationalZoneRadius = config.gravitationalZoneRadius;
     this.gravitationalZoneColor = config.gravitationalZoneColor;
 
-    this.graphics = new Graphics();
-    this.draw();
+    this.graphics = new PlanetGraphics({
+      gravitationalZoneColor: this.config.gravitationalZoneColor,
+      gravitationalZoneRadius: this.config.gravitationalZoneRadius,
+      outlineColor: this.config.outlineColor,
+      planetColor: this.config.color,
+      planetRadius: this.config.radius
+    });
+
     this.addChild(this.graphics);
 
     this.setupInteractivity();
@@ -94,31 +103,6 @@ export class Planet extends Gravitational {
     this.alpha = 1;
   }
 
-  private draw() {
-    this.graphics.clear();
-
-    // Gravitational zone (outer ring)
-    this.graphics
-      .circle(0, 0, this.gravitationalZoneRadius)
-      .fill({ color: this.gravitationalZoneColor, alpha: 0.05 });
-
-    // Gravitational zone border
-    this.graphics
-      .circle(0, 0, this.gravitationalZoneRadius)
-      .stroke({ color: this.gravitationalZoneColor, alpha: 0.3, width: 2 });
-
-    // Inner gravitational gradient ring
-    this.graphics
-      .circle(0, 0, this.gravitationalZoneRadius * 0.6)
-      .fill({ color: this.gravitationalZoneColor, alpha: 0.08 });
-
-    // Planet body
-    this.graphics.circle(0, 0, this.radius).fill({ color: this.color });
-
-    // Planet outline
-    this.graphics.circle(0, 0, this.radius).stroke({ color: this.outlineColor, width: 3 });
-  }
-
   /**
    * Clean up event listeners
    */
@@ -126,5 +110,49 @@ export class Planet extends Gravitational {
     this.off('pointerenter', this.onPointerEnter, this);
     this.off('pointerleave', this.onPointerLeave, this);
     super.destroy();
+  }
+}
+
+class PlanetGraphics extends Graphics {
+  constructor(
+    private config: {
+      gravitationalZoneColor: number;
+      gravitationalZoneRadius: number;
+      outlineColor: number;
+      planetColor: number;
+      planetRadius: number;
+    }
+  ) {
+    super();
+
+    this.clear();
+
+    // Gravitational zone (outer ring)
+    this.circle(0, 0, this.config.gravitationalZoneRadius).fill({
+      color: this.config.gravitationalZoneColor,
+      alpha: 0.05
+    });
+
+    // Gravitational zone border
+    this.circle(0, 0, this.config.gravitationalZoneRadius).stroke({
+      color: this.config.gravitationalZoneColor,
+      alpha: 0.3,
+      width: 2
+    });
+
+    // Inner gravitational gradient ring
+    this.circle(0, 0, this.config.gravitationalZoneRadius * 0.6).fill({
+      color: this.config.gravitationalZoneColor,
+      alpha: 0.08
+    });
+
+    // Planet body
+    this.circle(0, 0, this.config.planetRadius).fill({ color: this.config.planetColor });
+
+    // Planet outline
+    this.circle(0, 0, this.config.planetRadius).stroke({
+      color: this.config.outlineColor,
+      width: 3
+    });
   }
 }

@@ -5,6 +5,9 @@ import { type RoundGetter } from './types.ts';
 import type { GameRound } from './GameRound.ts';
 import { Comet } from './Comet.ts';
 
+type TCallback = () => void;
+type TGameEvent = 'loss' | 'win' | 'gameOver';
+
 export class GameState {
   /**
    * current comet x coordinate
@@ -35,6 +38,12 @@ export class GameState {
    */
   currentRound?: GameRound;
 
+  callbacks: Array<{ cb: TCallback; event: TGameEvent }> = [];
+
+  registerCallback(ev: TGameEvent, cb: TCallback) {
+    this.callbacks.push({ cb, event: ev });
+  }
+
   // calls this function when game scene is loaded
   loadGameState(parentContainer: Container) {
     assert(typeof this.currentlySelectedIndex === 'number', 'no round is selected');
@@ -54,6 +63,19 @@ export class GameState {
       if (gameObject instanceof Comet) {
         gameObject.update(deltaTime, this.currentRound.roundGameObjects);
       }
+    }
+  }
+
+  triggerEvent(event: TGameEvent, clearCbQueue: boolean = true) {
+    for (const { event: registeredEvent, cb } of this.callbacks) {
+      if (registeredEvent === event) {
+        console.log('handling registeredEvent', event);
+        cb();
+      }
+    }
+
+    if (clearCbQueue) {
+      this.callbacks = [];
     }
   }
 
