@@ -189,9 +189,7 @@ export class WinGameScene extends GameEndScene {
       {
         label: 'NEXT LEVEL',
         action: () => {
-          alert('add next game scene handling');
-          // gameState.loadNextRound();
-          // emitSceneChange('GAME');
+          this.gameState.loadNextRound();
         }
       }
     ];
