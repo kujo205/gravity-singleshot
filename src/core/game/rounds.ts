@@ -6,15 +6,45 @@ export function roundsFactory() {
   return [
     new GameRound(
       1,
+      () => [new Comet(300, 400), new Planet(650, 400, 'red-giant'), new Earth(1000, 400)],
+      10,
+      0
+    ),
+    new GameRound(
+      2,
+      () => [new Comet(200, 350), new Planet(550, 450, 'blackhole'), new Earth(900, 350)],
+      10,
+      0
+    ),
+    new GameRound(
+      3,
       () => [
-        new Comet(300, 400),
-        new Planet(650, 400, 'red-giant'),
-        new Earth(1000, 400)
-
-        // new Planet(450, 400, 'blackhole')
-
-        // new Planet(450, 300, 'green-dwarf'),
-        // new Planet(700, 500, 'yellow')
+        new Comet(400, 500),
+        new Planet(700, 300, 'green-dwarf'),
+        new Planet(800, 500, 'red-giant'),
+        new Earth(1100, 450)
+      ],
+      10,
+      0
+    ),
+    new GameRound(
+      4,
+      () => [
+        new Comet(250, 300),
+        new Planet(600, 350, 'red-giant'),
+        new Planet(750, 400, 'blackhole'),
+        new Earth(950, 500)
+      ],
+      10,
+      0
+    ),
+    new GameRound(
+      5,
+      () => [
+        new Comet(350, 450),
+        new Planet(500, 400, 'green-dwarf'),
+        new Planet(650, 350, 'blackhole'),
+        new Earth(1050, 400)
       ],
       10,
       0
