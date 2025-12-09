@@ -33,11 +33,15 @@ export class GameState {
 
   callbacks: Array<{ cb: TCallback; event: TGameEvent }> = [];
 
+  setCurrentlySelectedRoundId(id: number | null) {
+    this.currentlySelectedRoundId = id;
+  }
+
   constructor(
     /**
      * a list of all available round objects and their state related to how player played
      */
-    protected rounds: GameRound[] = []
+    public rounds: GameRound[] = []
   ) {}
 
   registerCallback(ev: TGameEvent, cb: TCallback) {
