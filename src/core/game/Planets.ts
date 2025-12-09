@@ -1,10 +1,9 @@
 import { Assets, Graphics } from 'pixi.js';
-import { GameObject } from './GameObject.ts';
 import { Gravitational } from './Gravitational.ts';
 import { GifSprite } from 'pixi.js/gif';
 
-export type PlanetStyle = 'green-dwarf' | 'earth' | 'red-giant' | 'yellow' | 'blackhole';
 export type TAsset = 'earth' | 'red-giant' | 'green-dwarf' | 'blackhole';
+export type PlanetStyle = TAsset;
 
 interface PlanetConfig {
   mass: number;
@@ -17,14 +16,14 @@ interface PlanetConfig {
 }
 
 const PLANET_STYLES: Record<PlanetStyle, PlanetConfig> = {
-  yellow: {
-    mass: 300,
-    radius: 20,
-    color: 0xf1c40f,
-    outlineColor: 0xf39c12,
-    gravitationalZoneRadius: 100,
-    gravitationalZoneColor: 0xf1c40f
-  },
+  // yellow: {
+  //   mass: 300,
+  //   radius: 20,
+  //   color: 0xf1c40f,
+  //   outlineColor: 0xf39c12,
+  //   gravitationalZoneRadius: 100,
+  //   gravitationalZoneColor: 0xf1c40f
+  // },
   'green-dwarf': {
     mass: 200,
     radius: 15,
