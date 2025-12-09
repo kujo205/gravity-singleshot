@@ -5,6 +5,7 @@ import { emitSceneChange } from '$lib/sceneChange.ts';
 import { BgGridPattern } from '../ui/BgGridPattern.ts';
 import { colors } from '../config/colors.ts';
 import type { GameState } from '../core/game/GameState.ts';
+import { audioManager } from '../core/AudioManager.ts';
 
 interface RoundData {
   roundNumber: number;
@@ -180,8 +181,24 @@ export class RoundSelectionScene extends Scene {
   private createRoundsGrid() {
     this.roundsContainer = new Container();
 
-    // TODO: make it a parameter passed somewhere from global state sitting in local storage
-    const roundsData = rounds;
+    const MIN_ROUNDS = 12;
+
+    const actualRounds = this.gameState.rounds.map((item) => ({
+      state: item.diamondsCollected === item.totalDiamonds ? 'completed' : 'unlocked',
+      roundNumber: item.id,
+      diamondsCollected: item.diamondsCollected,
+      totalDiamonds: item.totalDiamonds
+    })) satisfies RoundData[];
+
+    const roundsData = [
+      ...actualRounds,
+      ...Array.from({ length: Math.max(0, MIN_ROUNDS - actualRounds.length) }, (_, i) => ({
+        state: 'locked' as RoundCardState,
+        roundNumber: actualRounds.length + i + 1,
+        diamondsCollected: 0,
+        totalDiamonds: 10
+      }))
+    ] satisfies RoundData[];
 
     // Calculate grid positioning
     const totalWidth =
@@ -266,8 +283,10 @@ export class RoundSelectionScene extends Scene {
   }
 
   private onRoundSelected(roundNumber: number) {
-    console.log(`Round ${roundNumber} selected`);
-    // TODO: Load the selected round and transition to game scene
+    this.gameState.setCurrentlySelectedRoundId(roundNumber);
+
+    audioManager.playSound();
+    emitSceneChange('GAME_SCENE');
   }
 }
 

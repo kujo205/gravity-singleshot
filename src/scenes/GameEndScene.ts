@@ -165,7 +165,7 @@ export class WinGameScene extends GameEndScene {
   }
 
   protected getTitle(): string {
-    return 'What a beautiful shot!';
+    return 'Winner, winner, chicken dinner!';
   }
 
   protected getTitleColor(): number {
