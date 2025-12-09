@@ -208,14 +208,6 @@ export class Comet extends GameObject {
     this.trajectoryGraphics.clear();
   }
 
-  get currentAimAngle(): number {
-    return (this.aimAngle * 180) / Math.PI;
-  }
-
-  get currentAimForce(): number {
-    return this.aimForce;
-  }
-
   launch(velocityX: number, velocityY: number) {
     this.velocityX = velocityX;
     this.velocityY = velocityY;
