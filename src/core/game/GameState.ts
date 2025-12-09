@@ -55,7 +55,6 @@ export class GameState {
         gameObject.update(deltaTime, this.currentRound.roundGameObjects);
       }
     }
-    console.log('delta time', deltaTime);
   }
 
   getElapsedTime() {
