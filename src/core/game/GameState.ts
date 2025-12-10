@@ -5,7 +5,7 @@ import { Comet } from './Comet.ts';
 import { emitSceneChange } from '$lib/sceneChange.ts';
 
 type TCallback = () => void;
-type TGameEvent = 'loss' | 'win';
+type TGameEvent = 'loss' | 'win' | 'diamondCollected';
 
 export class GameState {
   /**

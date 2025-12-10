@@ -87,6 +87,7 @@ export class PhysicsEngine {
     for (const diamond of diamonds) {
       if (diamond.interceptingWithComet(comet)) {
         diamond.collectDiamond();
+        gameState.triggerEvent('diamondCollected', false);
       }
     }
   }
