@@ -41,18 +41,6 @@ export class Diamond extends GameObject {
     this.softDestroy();
   }
 
-  private tickerCallback() {
-    this?.sprite.update(globalThis.__PIXI_APP__.ticker);
-
-    // Add pulsing animation to outer circle
-    if (this?.outerCircle) {
-      const time = Date.now() * 0.002;
-      const scale = 1 + Math.sin(time) * 0.1;
-      this.outerCircle.scale.set(scale);
-      this.outerCircle.alpha = 0.6 + Math.sin(time) * 0.2;
-    }
-  }
-
   private buildUi() {
     // Create outer circle
     this.outerCircle = new Graphics();
@@ -75,12 +63,22 @@ export class Diamond extends GameObject {
       autoUpdate: false
     });
 
-    globalThis.__PIXI_APP__.ticker.add(this.tickerCallback);
-
     this.sprite.anchor.set(0.5);
     this.sprite.width = this.radius * 2;
     this.sprite.height = this.radius * 2;
     this.diamondInnerContainer.addChild(this.sprite);
+
+    globalThis.__PIXI_APP__.ticker.add(() => {
+      this?.sprite.update(globalThis.__PIXI_APP__.ticker);
+
+      // Add pulsing animation to outer circle
+      if (this?.outerCircle) {
+        const time = Date.now() * 0.002;
+        const scale = 1 + Math.sin(time) * 0.1;
+        this.outerCircle.scale.set(scale);
+        this.outerCircle.alpha = 0.6 + Math.sin(time) * 0.2;
+      }
+    });
   }
 
   override destroy(options?: any) {
@@ -90,8 +88,6 @@ export class Diamond extends GameObject {
       this.removeChild(this.outerCircle);
     }
     super.destroy({ ...options, children: false });
-
-    globalThis.__PIXI_APP__.ticker.remove(this.tickerCallbackRef);
   }
 
   softDestroy() {
@@ -103,7 +99,5 @@ export class Diamond extends GameObject {
       this.removeChild(this.outerCircle);
     }
     this.diamondInnerContainer.destroy();
-
-    globalThis.__PIXI_APP__.ticker.remove(this.tickerCallbackRef);
   }
 }

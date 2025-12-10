@@ -1,0 +1,11 @@
+name = "gravity-singleshot"
+compatibility_date = "2025-12-10"
+workers_dev = true
+main = "build/worker.js"
+
+[build]
+command = "pnpm run build"
+
+[assets]
+directory = ".svelte-kit/cloudflare"
+binding = "ASSETS"

@@ -19,10 +19,6 @@ export class PhysicsEngine {
       return defaultForce;
     }
 
-    const round = gameState.currentRound;
-
-    console.log('round', round);
-
     const dx = body.x - comet.x;
     const dy = body.y - comet.y;
     const distance = Math.sqrt(dx * dx + dy * dy);

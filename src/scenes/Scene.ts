@@ -19,9 +19,6 @@ export class Scene extends Container {
     this.app = app;
     this.name = sceneName;
 
-    console.log('width', app.screen.width);
-    console.log('height', app.screen.height);
-
     // Create a transparent background that defines the scene size
     const background = new Graphics();
     background.rect(0, 0, app.screen.width, app.screen.height);
