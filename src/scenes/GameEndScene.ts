@@ -1,6 +1,6 @@
 import { Scene } from './Scene.ts';
 import { emitSceneChange } from '$lib/sceneChange.ts';
-import { Button } from '../ui/Button.ts';
+import { Button, type ButtonStyle } from '../ui/Button.ts';
 import { Application, Text, Container, TextStyle } from 'pixi.js';
 import { type GameState } from '../core/game/GameState.ts';
 import { BgGridPattern } from '../ui/BgGridPattern.ts';
@@ -18,7 +18,11 @@ abstract class GameEndScene extends Scene {
 
   protected abstract getTitle(): string;
   protected abstract getTitleColor(): number;
-  protected abstract getButtons(): Array<{ label: string; action: () => void }>;
+  protected abstract getButtons(): Array<{
+    label: string;
+    action: () => void;
+    style?: ButtonStyle;
+  }>;
 
   private buildBg() {
     const { width, height } = this.app.screen;
@@ -103,11 +107,17 @@ abstract class GameEndScene extends Scene {
     buttonsContainer.x = (this.app.screen.width - buttonWidth) / 2;
     buttonsContainer.y = (this.app.screen.height - totalHeight) / 2;
 
-    buttons.forEach((buttonConfig) => {
-      const button = new Button('outline', buttonConfig.label, buttonWidth, buttonHeight, 8);
-      button.onClick(buttonConfig.action);
+    for (const config of buttons) {
+      const button = new Button(
+        config.style ?? 'outline',
+        config.label,
+        buttonWidth,
+        buttonHeight,
+        8
+      );
+      button.onClick(config.action);
       buttonsContainer.addChild(button);
-    });
+    }
 
     return buttonsContainer;
   }
@@ -172,8 +182,15 @@ export class WinGameScene extends GameEndScene {
     return 0x00ff00; // Green
   }
 
-  protected getButtons(): Array<{ label: string; action: () => void }> {
+  protected getButtons(): Array<{ label: string; action: () => void; style?: ButtonStyle }> {
     return [
+      {
+        label: 'NEXT LEVEL',
+        action: () => {
+          this.gameState.loadNextRound();
+        },
+        style: 'primary'
+      },
       {
         label: 'RESTART',
         action: () => {
@@ -184,12 +201,6 @@ export class WinGameScene extends GameEndScene {
         label: 'MAIN MENU',
         action: () => {
           emitSceneChange('MAIN_MENU');
-        }
-      },
-      {
-        label: 'NEXT LEVEL',
-        action: () => {
-          this.gameState.loadNextRound();
         }
       }
     ];
