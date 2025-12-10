@@ -56,12 +56,10 @@ export function roundsFactory() {
       new Planet(600, 475, 'blackhole'),
       new Planet(700, 475, 'blackhole'),
       new Planet(800, 475, 'blackhole'),
-      // new Planet(800, 550, 'blackhole'),
       new Earth(1000, 150),
       new Diamond(1000, 250),
       new Diamond(1000, 350),
       new Diamond(1000, 450),
-
       new Planet(900, 550, 'blackhole')
     ])
   ];

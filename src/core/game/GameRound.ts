@@ -18,9 +18,8 @@ export class GameRound {
   }
 
   public get diamondsCollected() {
-    return this.roundGameObjects
-      .filter((item) => item instanceof Diamond)
-      .filter((item) => item.isCollected).length;
+    return this.roundGameObjects.filter((item) => item instanceof Diamond && item.isCollected)
+      .length;
   }
 
   setGameState(gameState?: GameState) {
