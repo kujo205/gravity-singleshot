@@ -3,6 +3,7 @@ import { Application, Container, Ticker } from 'pixi.js';
 import { type GameState } from '../core/game/GameState.ts';
 import { Button } from '../ui/Button.ts';
 import { emitSceneChange } from '$lib/sceneChange.ts';
+import { Text } from 'pixi.js';
 
 export class GameScene extends Scene {
   private uiContainer?: Container;
@@ -11,8 +12,8 @@ export class GameScene extends Scene {
 
   constructor(app: Application, gameState: GameState) {
     super('GameScene', app, gameState);
-    this.createHeader();
     this.buildUi();
+    this.createHeader();
   }
 
   buildUi() {
@@ -59,12 +60,25 @@ export class GameScene extends Scene {
     const backButton = new Button('outline', 'BACK TO MENU', 200, 50, 8);
     backButton.x = 60;
     backButton.y = 50;
-
     backButton.onClick(() => {
       emitSceneChange('MAIN_MENU');
     });
-
     this.headerContainer.addChild(backButton);
+
+    // Diamond count display
+    const diamondCount = this.gameState.currentRound.diamondsCollected ?? 0;
+    const allDiamondsCount = this.gameState.currentRound.totalDiamonds ?? 0;
+    const diamondText = new Text(`💎 ${diamondCount}/${allDiamondsCount}`, {
+      fontFamily: 'Arial',
+      fontSize: 32,
+      fill: 0x00bfff,
+      align: 'right'
+    });
+    diamondText.anchor.set(1, 0); // right align
+    diamondText.x = this.app.screen.width - 60;
+    diamondText.y = 50;
+    this.headerContainer.addChild(diamondText);
+
     this.addChild(this.headerContainer);
   }
 
