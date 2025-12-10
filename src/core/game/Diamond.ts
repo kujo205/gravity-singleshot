@@ -1,6 +1,7 @@
 import { GameObject } from './GameObject.ts';
 import { GifSprite } from 'pixi.js/gif';
-import { Assets, Graphics } from 'pixi.js';
+import { Assets, Container, Graphics } from 'pixi.js';
+import type { Comet } from './Comet.ts';
 
 export class Diamond extends GameObject {
   static idCounter = 0;
@@ -8,12 +9,36 @@ export class Diamond extends GameObject {
   public radius: number;
   private sprite!: GifSprite;
   private outerCircle!: Graphics;
+  private collected!: boolean;
+  private diamondInnerContainer: Container;
+
+  public get isCollected() {
+    return this.collected;
+  }
+
+  public interceptingWithComet(comet: Comet) {
+    const dx = this.x - comet.x;
+    const dy = this.y - comet.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    return distance < this.radius + comet.radius;
+  }
 
   constructor(x: number, y: number) {
     super(x, y, 'diamond');
     this.id = ++Diamond.idCounter;
     this.radius = 10;
+
+    this.diamondInnerContainer = new Container();
+    this.addChild(this.diamondInnerContainer);
+
     this.buildUi();
+
+    this.collected = false;
+  }
+
+  public collectDiamond() {
+    this.collected = true;
+    this.softDestroy();
   }
 
   private buildUi() {
@@ -21,13 +46,13 @@ export class Diamond extends GameObject {
     this.outerCircle = new Graphics();
     this.outerCircle.circle(0, 0, this.radius + 6);
     this.outerCircle.stroke({ width: 3, color: 0x22d3ee, alpha: 0.8 });
-    this.addChild(this.outerCircle);
+    this.diamondInnerContainer.addChild(this.outerCircle);
 
     // Create inner glow circle
     const glowCircle = new Graphics();
     glowCircle.circle(0, 0, this.radius + 4);
     glowCircle.stroke({ width: 1, color: 0x22d3ee, alpha: 0.4 });
-    this.addChild(glowCircle);
+    this.diamondInnerContainer.addChild(glowCircle);
 
     // Create sprite
     const source = Assets.get('diamond');
@@ -53,7 +78,7 @@ export class Diamond extends GameObject {
     this.sprite.anchor.set(0.5);
     this.sprite.width = this.radius * 2;
     this.sprite.height = this.radius * 2;
-    this.addChild(this.sprite);
+    this.diamondInnerContainer.addChild(this.sprite);
   }
 
   override destroy(options?: any) {
@@ -63,5 +88,16 @@ export class Diamond extends GameObject {
       this.removeChild(this.outerCircle);
     }
     super.destroy({ ...options, children: false });
+  }
+
+  softDestroy() {
+    if (this.sprite) {
+      this.removeChild(this.sprite);
+      this.sprite.stop();
+    }
+    if (this.outerCircle) {
+      this.removeChild(this.outerCircle);
+    }
+    this.diamondInnerContainer.destroy();
   }
 }
