@@ -66,7 +66,8 @@ class PixiApp {
       'red-giant': '/assets/red-giant.gif',
       earth: '/assets/earth.gif',
       'green-dwarf': '/assets/green-dwarf.gif',
-      blackhole: '/assets/blackhole.gif'
+      blackhole: '/assets/blackhole.gif',
+      diamond: '/assets/diamond.gif'
     });
 
     await Assets.loadBundle('global-assets');

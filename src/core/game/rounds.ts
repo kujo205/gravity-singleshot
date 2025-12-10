@@ -1,6 +1,7 @@
 import { Planet, Earth } from './Planets.ts';
 import { GameRound } from './GameRound.ts';
 import { Comet } from './Comet.ts';
+import { Diamond } from './Diamond.ts';
 
 export function roundsFactory() {
   return [
@@ -19,6 +20,7 @@ export function roundsFactory() {
     new GameRound(
       3,
       () => [
+        new Diamond(300, 300),
         new Comet(400, 500),
         new Planet(700, 300, 'green-dwarf'),
         new Planet(800, 500, 'red-giant'),
