@@ -45,6 +45,24 @@ export function roundsFactory() {
       new Diamond(950, 350),
       new Diamond(1000, 450),
       new Earth(1050, 400)
+    ]),
+    new GameRound(6, () => [
+      new Comet(300, 600),
+      new Planet(600, 100, 'blackhole'),
+      new Planet(600, 175, 'blackhole'),
+      new Planet(600, 250, 'blackhole'),
+      new Planet(600, 325, 'blackhole'),
+      new Planet(600, 400, 'blackhole'),
+      new Planet(600, 475, 'blackhole'),
+      new Planet(700, 475, 'blackhole'),
+      new Planet(800, 475, 'blackhole'),
+      // new Planet(800, 550, 'blackhole'),
+      new Earth(1000, 150),
+      new Diamond(1000, 250),
+      new Diamond(1000, 350),
+      new Diamond(1000, 450),
+
+      new Planet(900, 550, 'blackhole')
     ])
   ];
 }
