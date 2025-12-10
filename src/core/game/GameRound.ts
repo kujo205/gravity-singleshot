@@ -1,6 +1,7 @@
 import type { GameObject } from './GameObject.ts';
 import type { RoundBounds } from './types.ts';
 import type { GameState } from './GameState.ts';
+import { Diamond } from './Diamond.ts';
 
 export class GameRound {
   roundBounds: RoundBounds;
@@ -11,6 +12,16 @@ export class GameRound {
   public roundGameObjects: GameObject[];
 
   public gameState?: GameState;
+
+  public get totalDiamonds() {
+    return this.roundGameObjects.filter((item) => item instanceof Diamond).length;
+  }
+
+  public get diamondsCollected() {
+    return this.roundGameObjects
+      .filter((item) => item instanceof Diamond)
+      .filter((item) => item.isCollected).length;
+  }
 
   setGameState(gameState?: GameState) {
     this.gameState = gameState;
@@ -25,15 +36,7 @@ export class GameRound {
     /**
      * round game objects getter
      */
-    public roundGameObjectsGetter: () => GameObject[],
-    /**
-     * All diamonds that can be collected by a user
-     */
-    public totalDiamonds: number,
-    /**
-     * Diamond collected by a user
-     */
-    public diamondsCollected: number
+    public roundGameObjectsGetter: () => GameObject[]
   ) {
     this.roundGameObjects = this.roundGameObjectsGetter();
     this.roundBounds = this.calculateRoundBounds();
@@ -44,12 +47,7 @@ export class GameRound {
    * @returns {GameRound} - clone of the GameRound
    */
   public getSameInstance(): GameRound {
-    const clone = new GameRound(
-      this.id,
-      this.roundGameObjectsGetter,
-      this.totalDiamonds,
-      this.diamondsCollected
-    );
+    const clone = new GameRound(this.id, this.roundGameObjectsGetter);
     clone.setGameState(this.gameState);
     return clone;
   }

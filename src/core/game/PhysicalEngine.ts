@@ -2,6 +2,7 @@ import { Comet } from './Comet';
 import { type Force } from './types.ts';
 import { Gravitational } from './Gravitational.ts';
 import { GameState } from './GameState.ts';
+import { Diamond } from './Diamond.ts';
 
 export class PhysicsEngine {
   // Tune this for gameplay feel
@@ -64,6 +65,8 @@ export class PhysicsEngine {
       return this.getDefaultForce();
     }
 
+    this.checkRemoveInterceptingDiamonds(gameState, comet);
+
     let totalForceX = 0;
     let totalForceY = 0;
 
@@ -74,6 +77,18 @@ export class PhysicsEngine {
     }
 
     return { forceX: totalForceX, forceY: totalForceY };
+  }
+
+  static checkRemoveInterceptingDiamonds(gameState: GameState, comet: Comet) {
+    const diamonds = gameState.currentRound.roundGameObjects.filter(
+      (item) => item instanceof Diamond
+    );
+
+    for (const diamond of diamonds) {
+      if (diamond.interceptingWithComet(comet)) {
+        diamond.collectDiamond();
+      }
+    }
   }
 
   static getDefaultForce() {
