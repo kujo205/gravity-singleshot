@@ -44,6 +44,10 @@ export class GameScene extends Scene {
       emitSceneChange('LOST_GAME_SCENE');
     });
 
+    this.gameState.registerCallback('diamondCollected', () => {
+      this.createHeader();
+    });
+
     this.app.ticker.add(this.gameLoopCallback);
 
     this.addChild(this.uiContainer);
