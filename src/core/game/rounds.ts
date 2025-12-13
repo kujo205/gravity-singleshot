@@ -28,6 +28,16 @@ export function roundsFactory() {
       new Earth(1100, 450)
     ]),
     new GameRound(4, () => [
+      new Comet(400, 500),
+
+      new Diamond(550, 425),
+      new Planet(550, 500, 'blackhole'),
+      new Planet(750, 500, 'blackhole'),
+      new Diamond(750, 575),
+
+      new Earth(1000, 500)
+    ]),
+    new GameRound(5, () => [
       new Comet(250, 300),
       new Planet(600, 350, 'red-giant'),
       new Planet(750, 400, 'blackhole'),
@@ -36,7 +46,7 @@ export function roundsFactory() {
       new Diamond(900, 500),
       new Earth(950, 500)
     ]),
-    new GameRound(5, () => [
+    new GameRound(6, () => [
       new Comet(350, 450),
       new Planet(500, 400, 'green-dwarf'),
       new Planet(650, 350, 'blackhole'),
@@ -46,7 +56,7 @@ export function roundsFactory() {
       new Diamond(1000, 450),
       new Earth(1050, 400)
     ]),
-    new GameRound(6, () => [
+    new GameRound(7, () => [
       new Comet(300, 600),
       new Planet(600, 100, 'blackhole'),
       new Planet(600, 175, 'blackhole'),
